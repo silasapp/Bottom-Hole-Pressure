@@ -1,0 +1,54 @@
+﻿
+
+<partial name="_ElaHeader.cshtml" />
+
+<body class="fix-header fix-sidebar">
+
+    @*@ViewBag.BodyClass*@
+
+
+    <!-- Preloader - style you can find in spinners.css -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- Main wrapper  -->
+    <div id="main-wrapper">
+        <!-- header header  -->
+        <!-- End header header -->
+        <!-- Left Sidebar  -->
+        <partial name="_ElaSideBar.cshtml" />
+        <!-- End Left Sidebar  -->
+        <!-- Page wrapper  -->
+        <div class="page-wrapper">
+            <br />
+            <!-- Bread crumb -->
+            @*<div class="row page-titles">
+                <div class="col-md-5 align-self-center">
+                    <h4 style="color:#77db5d;"> @ViewBag.Title </h4>
+                </div>
+                <div class="col-md-7 align-self-center">
+                    <ol class="breadcrumb"></ol>
+                </div>
+            </div>*@
+            <!-- End Bread crumb -->
+            <!-- Container fluid  -->
+            <div class="container-fluid">
+                <!-- Start Page Content -->
+                @RenderBody()
+                <!-- End PAge Content -->
+            </div>
+            <!-- End Container fluid  -->
+            <!-- footer -->
+
+
+            <partial name="_ElaFooter.cshtml" />
+            <!-- End footer -->
+        </div>
+        <!-- End Page wrapper  -->
+    </div>
+    <!-- End Wrapper -->
+
+</body>
+

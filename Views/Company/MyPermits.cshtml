@@ -1,0 +1,78 @@
+﻿@using BHP.Helpers;
+@using BHP.Controllers.Authentication;
+@using Microsoft.AspNetCore.Http;
+@model IEnumerable<BHP.Models.MyPermit>
+
+@{
+    ViewData["Title"] = "My Permits";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+<div class="">
+
+    <div class="row" id="BackImage">
+
+        <br />
+        <h3 class="DashCompanyName">@ViewData["Title"] </h3>
+        <hr />
+    </div>
+
+    <br />
+
+    <div>
+
+        <table class="table table-bordered table-hover" id="MyFacilityTable" style="font-size:small">
+            <thead>
+                <tr>
+                    <th> Permit NO</th>
+                    <th> App. Ref. NO. </th>
+                    <th> Company </th>
+                    <th> Address </th>
+                    <th> Issue Date </th>
+                    <th> Expiry Date </th>
+                    <th> Action </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model.Any())
+                {
+                    foreach (var a in Model)
+                    {
+                        var permitID = generalClass.Encrypt(a.PermitID.ToString());
+
+                        var exDate = DateTime.Parse(a.ExpireDate.ToString());
+
+                        <tr>
+                            <td> @a.PermitNo</td>
+                            <td> @a.RefNo</td>
+                            <td> @a.CompanyName</td>
+                            <td> @a.CompanyAddress</td>
+                            <td> @a.IssuedDate.ToString("MMMM dd, yyyy") </td>
+                            <td>
+                                @a.ExpireDate.ToString("MMMM dd, yyyy")
+
+                                @if (DateTime.Now > exDate)
+                                {
+                                    <br />
+                                    <b class="text-danger"> Expired Permit </b>
+                                }
+                            </td>
+
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a class="btn btn-primary btn-sm" href="/Permits/ViewPermit/@permitID/_view" target="_blank"> <i class="fa fa-eye"> </i> View </a>
+                                    <a class="btn btn-success btn-sm" href="/Permits/ViewPermit/@permitID/_download" target="_blank"> <i class="fa fa-file-download"> </i> Download </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+

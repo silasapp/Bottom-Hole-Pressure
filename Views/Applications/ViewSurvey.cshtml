@@ -1,0 +1,252 @@
+﻿@using BHP.Helpers
+@model IEnumerable<BHP.Models.CriteriaModel>
+@using Microsoft.AspNetCore.Http;
+@using BHP.Controllers.Authentication;
+
+@{
+    ViewData["Title"] = ViewData["ViewSurveyDescription"].ToString();
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<br />
+
+
+<div class="card-black">
+
+    <div>
+
+
+
+        @foreach (var apps in Model)
+        {
+            <div class="table-responsive">
+
+                <h2 class="text-primary"><b>Uploaded Subsurface Pressure Survey Proposal</b></h2>
+
+                <table class="table table-bordered table-striped" id="MyFacilityTable" style="font-size:small">
+
+                    <thead>
+                        <tr style="font-size:x-small">
+                            <th>Quarter</th>
+                            <th>Fields</th>
+                            <th>Reservoir</th>
+                            <th>Production Commencement Date</th>
+                            <th>Initial Res. Pressure</th>
+                            <th>Res. Bubble Point Pressure</th>
+                            <th>Well Name</th>
+                            <th>Last Survey Date</th>
+                            <th>Measured Res. Pressure</th>
+                            <th>Survey Type</th>
+                            <th>Time Shutin Duration</th>
+                            <th>Used Instrument</th>
+                            <th>Operation Cost (USD)</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var s in apps.applications)
+                        {
+                            <tr>
+                                <td>@s.Qrt</td>
+                                <td>@s.Fields</td>
+                                <td>@s.Reservoir</td>
+                                <td>@s.ReservoirCreatedAt.ToShortDateString()</td>
+                                <td>@s.InitialRpressure</td>
+                                <td>@s.RbubblePointPressure</td>
+                                <td>@s.WellName</td>
+                                <td>@s.LastSurveyDate.ToShortDateString()</td>
+                                <td>@s.MeasuredRpressure</td>
+                                <td>@s.SurveyType</td>
+                                <td>@s.TimeShut</td>
+                                <td>@s.UsedInstrument</td>
+                                <td>@s.OperaionWellCost</td>
+                                <td>@s.CreatedAt.ToLongDateString()</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <p><br /><br /></p>
+
+            <h2 class="text-primary"><b>Survey Frequency Criteria</b></h2>
+
+            <hr />
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-striped" id="MyFacilityTables" style="font-size:small">
+                    <thead>
+                        <tr style="font-size:x-small">
+                            <th>Reservoir</th>
+                            <th>Reservoir State</th>
+                            <th>Pressure Decline</th>
+                            <th>Res. Bubble Point Pressure</th>
+                            <th>Initial Res. Pressure</th>
+                            <th>Current Pressure</th>
+                            <th>Previous Pressure</th>
+                            <th>Exp. No Of Survey</th>
+                            <th>No Of Survey Carried Out</th>
+                            <th>Survey Frequency Criteria Meet?</th>
+                            <th>Production Year</th>
+                            <th>Date Applied</th>
+                            <th>Years of Production</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var s in apps.criterias)
+                        {
+                            <tr>
+                                <td>@s.Reservoir</td>
+                                <td><small>@s.ReservoirState</small></td>
+                                <td><small>@s.PressureDecline</small></td>
+                                <td>@s.BubblePointPressure</td>
+                                <td>@s.InitialPressure</td>
+                                <td>@s.CurrentPressure</td>
+                                <td>@s.PreviousPressure</td>
+                                <td>@s.ExpectedNoOfSurvey</td>
+                                <td>@s.NoOfSurvey</td>
+                                <td>@s.SurveyFrequecy</td>
+                                <td>@s.ProductionYear</td>
+                                <td>@s.DateApplied</td>
+                                <td>@s.YearsOfProduction</td>
+                                <td><small>@s.ResultDescription</small></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+
+            <p><br /><br /></p>
+
+            <h2 class="text-primary"><b>Uploaded Subsurface pressure survey report</b></h2>
+
+            <hr />
+
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-striped"  id="MyFacilityTable1" style="font-size:small">
+
+                    <thead>
+                        <tr style="font-size:x-small">
+                            <th>Fields</th>
+                            <th>Reservoir</th>
+                            <th>Well Name</th>
+                            <th>Remaining Res. (mmbbl)</th>
+                            <th>Date of Survey</th>
+                            <th>Type of Survey</th>
+                            <th>Oil (mmbbl) NCO at 60/60</th>
+                            <th>Water (mmbbl)</th>
+                            <th>Gas (MMscf)</th>
+                            <th>BS&W (%)</th>
+                            <th>GOR (scf/bbl)</th>
+                            <th>BEAN 64th</th>
+                            <th>Datum Depth (ft. ss)</th>
+                            <th>Initial Res. Pressure (psig)</th>
+                            <th>THP (psig)</th>
+                            <th>CHP (psig)</th>
+                            <th>FBHP MP perf. (psig)</th>
+                            <th>SBHP MP perf. (psig)</th>
+                            <th>Calc. Res. Press. at datum (psig)</th>
+                            <th>Productivity Index (b/d/psig)</th>
+                            <th>Date of Last Survey</th>
+                            <th>Remark</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var s in apps.surveyReports)
+                        {
+                            <tr>
+                                <td>@s.Field</td>
+                                <td>@s.Reservior</td>
+                                <td>@s.WellName</td>
+                                <td>@s.RemainingReserve</td>
+                                <td>@s.DateOfSurvey.ToShortDateString()</td>
+                                <td>@s.TypeOfSurvey</td>
+                                <td>@s.Oil</td>
+                                <td>@s.Water</td>
+                                <td>@s.Gas</td>
+                                <td>@s.Bsw</td>
+                                <td>@s.Gor</td>
+                                <td>@s.Bean</td>
+                                <td>@s.DatumDepth</td>
+                                <td>@s.InitialPressure</td>
+                                <td>@s.Thp</td>
+                                <td>@s.Chp</td>
+                                <td>@s.FbhpMp</td>
+                                <td>@s.SbhpMp</td>
+                                <td>@s.RpDatum</td>
+                                <td>@s.ProductivityIndex</td>
+                                <td>@s.DateOfLastSurvey</td>
+                                <td><small>@s.Remark</small></td>
+                                <td>@s.CreatedAt</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+
+            <p><br /><br /></p>
+
+            <h2 class="text-primary"><b>Survey Report Criteria</b></h2>
+
+            <hr />
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-striped" id="MyFacilityTable2" style="font-size:small">
+                    <thead>
+                        <tr style="font-size:x-small">
+                            <th>Reservoir</th>
+                            <th>Initial Res. Pressure</th>
+                            <th>SBHP MP perf. (psig)</th>
+                            <th>Oil (mmbbl) NCO at 60/60</th>
+                            <th>Remaining Reserves (mmbbl)</th>
+                            <th>Pressure Decline (%)</th>
+                            <th>Fractional Recovery (%)</th>
+                            <th>Altimate Recovery (mmbbl)</th>
+                            <th>Recommendation</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var s in apps.surveyCriterias)
+                        {
+                            <tr>
+                                <td>@s.Reservoir</td>
+                                <td>@s.InitialPressure</td>
+                                <td>@s.SBHP_MP</td>
+                                <td>@s.Oil</td>
+                                <td>@s.RemainingReservers</td>
+                                <td>@s.PressureDecline.ToString("0.00")%</td>
+                                <td>@s.FractionalRecovery.ToString("0.00")%</td>
+                                <td>@s.AltimateRecovery</td>
+                                <td><small class="text-info">@s.Recommendation</small></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        }
+
+    </div>
+
+</div>
+

@@ -1,0 +1,120 @@
+﻿
+@using BHP.Helpers
+@model IEnumerable<BHP.Models.MyApps>
+@using Microsoft.AspNetCore.Http;
+@using BHP.Controllers.Authentication;
+
+@{
+    ViewData["Title"] = ViewData["ClassifyApp"];
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+
+}
+
+<h1>@ViewData["Title"].ToString()</h1>
+
+<br />
+
+<div class="card-black">
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-hover" id="MyAppsTable" style="font-size:small">
+
+            <thead>
+                <tr>
+                    <th>Ref. No.</th>
+                    <th>Company Name</th>
+                    @*<th>Company Address</th>
+                    <th>Company Email</th>*@
+                    <th>Year</th>
+                    <th>Status</th>
+                    <th>Email Acknowledge</th>
+                    <th>Proposal Submitted</th>
+                    <th>Report Submitted</th>
+                    <th>Proposal Approved</th>
+                    <th>Report Approved</th>
+                    <th>Rate</th>
+                    <th>Date Applied</th>
+
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model.Any())
+                {
+                    foreach (var a in Model)
+                    {
+
+                        var app_id = generalClass.Encrypt(a.RequestId.ToString());
+
+
+                        if (a.DeletedStatus == true)
+                        {
+                            <tr class="" style="background:#f7c4c4">
+                                <td><b>@a.RefNo</b> </td>
+                                <td style="font-weight:bold"><a class="" href="/Company/FullCompanyProfile/@generalClass.Encrypt(a.CompanyEmail)" target="_blank"> @a.CompanyName </a></td>
+                                @*<td><small>@a.CompanyAddress</small></td>
+                                <td>@a.CompanyEmail</td>*@
+                                <td>@a.Year</td>
+                                <td>@a.Status</td>
+                                <td>@a.HasAck</td>
+                                <td><b><span class=""> @a.isSubmitted </span></b></td>
+                                <td><b><span class=""> @a.isReportSubmitted </span></b></td>
+                                <td><b><span class=""> @a.isProposalApproved </span></b></td>
+                                <td><b><span class=""> @a.isReportApproved </span></b></td>
+                                <td> <h5> <span class="badge badge-warning"> @a.Rate </span> </h5> </td>
+
+                                <td>  @a.DateApplied </td>
+
+                                <td>
+
+                                    <div class="btn-group" role="group">
+                                        <a href="/Applications/Apps/@app_id" target="_blank" class="btn btn-primary btn-sm"> <i class="fa fa-eye"> </i> View </a>
+                                        <a href="/Applications/ApplicationHistory/@app_id" target="_blank" class="btn btn-warning btn-sm"><i class="fas fa-history"> </i> History </a>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr class="" style="">
+                                <td><b>@a.RefNo</b> </td>
+                                <td style="font-weight:bold"><a class="" href="/Company/FullCompanyProfile/@generalClass.Encrypt(a.CompanyEmail)" target="_blank"> @a.CompanyName </a></td>
+                                @*<td><small>@a.CompanyAddress</small></td>
+                                <td>@a.CompanyEmail</td>*@
+                                <td>@a.Year</td>
+                                <td>@a.Status</td>
+                                <td>@a.HasAck</td>
+                                <td><b><span class=""> @a.isSubmitted </span></b></td>
+                                <td><b><span class=""> @a.isReportSubmitted </span></b></td>
+                                <td><b><span class=""> @a.isProposalApproved </span></b></td>
+                                <td><b><span class=""> @a.isReportApproved </span></b></td>
+                                <td> <h5> <span class="badge badge-warning"> @a.Rate </span> </h5> </td>
+
+                                <td>  @a.DateApplied </td>
+
+                                <td>
+
+                                    <div class="btn-group" role="group">
+                                        <a href="/Applications/Apps/@app_id" target="_blank" class="btn btn-primary btn-sm"> <i class="fa fa-eye"> </i> View </a>
+                                        <a href="/Applications/ApplicationHistory/@app_id" target="_blank" class="btn btn-warning btn-sm"><i class="fas fa-history"> </i> History </a>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        }
+
+                    }
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+

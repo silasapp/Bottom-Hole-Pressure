@@ -1,0 +1,91 @@
+﻿@model BHP.Models.DB.Application;
+@{
+    ViewData["Title"] = "SubSurface Pressure Survey";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+
+}
+
+<div class="row" id="BackImage">
+
+    <br />
+    <h3 class="DashCompanyName">@ViewData["Title"]</h3>
+    <br />
+</div>
+
+<br />
+
+<div id="CreateApplicationDivLoader" style="padding:10px">
+
+    <form action="#" id="SubmitApp">
+
+        <div class="row">
+            <div class="col-md-7">
+                <div style="display:none"><input value="@ViewData["ReqId"]" id="RequestId" name="RequestId" /></div>
+                <span>
+                    <label for="UploadedFile" class="btn btn-primary"><i class="fas fa-cloud-upload-alt"></i> Upload Template A (Excel File)</label>
+                    <label style="color:green; font-weight:bold">File Name:</label> <label id="filename" name="filename" class="label-success"></label>
+                    @*<input type="file" id="UploadedFile" style="visibility:hidden" name="UploadedFile">*@
+                    <input type="file" id="UploadedFile" style="visibility:hidden" name="UploadedFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                </span>
+
+            </div>
+            @{
+                if (ViewData["Rejected"] != null)
+                {
+
+                    <div class="col-md-2">
+                        <button type="submit" name="Submit" id="submitupload" class="btn btn-danger"><i class="fas fa-exchange-alt"></i> Resubmit Proposal</button>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-2">
+                        <input type="submit" name="Submit" id="submitupload" value="Submit and Continue" class="btn btn-success" />
+                    </div>
+                }
+
+                
+            }
+        </div>
+        <div id="successmessage"> </div>
+        <div id="errormessage"> </div>
+
+
+
+    </form>
+
+</div>
+
+<hr /><br />
+
+<div class="row">
+    <div class="col-md-12" style="background-color:white">
+        <label style="margin-left:300px; font-weight:bolder; font-size:25px; color:green"> @DateTime.Now.AddYears(1).Year SubSurface Pressure Survey Proposal</label>
+        <hr />
+        <table class="table table-striped table-bordered table-condensed table-responsive customDT">
+            <thead>
+                <tr>
+                    <th>Quarter</th>
+                    <th>Fields</th>
+                    <th>Reservoir</th>
+                    <th>Initial Reservoir Presure</th>
+                    <th>Reservoir Bubble Point Pressure</th>
+                    <th>Name of Well to be Srveyed </th>
+                    <th> Date of Last Survey</th>
+                    <th> Measured Reservoir Pressure at the Date of Last Survey</th>
+                    <th>Shut in Duration</th>
+                    <th>Instrument to be Used </th>
+                    <th> Cost of Operation per well (USD) </th>
+                    <th>Reservoir Commencement Date</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+
+        </table>
+    </div>
+
+</div>
+
+
+
+

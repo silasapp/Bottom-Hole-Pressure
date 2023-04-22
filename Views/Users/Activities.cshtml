@@ -1,0 +1,73 @@
+﻿@using BHP.Helpers
+@model IEnumerable<BHP.Models.DB.AuditTrail>
+
+@{
+    ViewData["Title"] = ViewData["ActivityTitle"];
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+    var i = 0;
+}
+
+
+<h2>@ViewData["Title"]</h2>
+
+<br />
+
+<div class="card-black">
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-hover " id="MyFacilityTable">
+
+            <thead>
+                <tr>
+                    <th> # </th>
+                    <th> User Email </th>
+                    <th> Action Performed </th>
+                    <th> Date </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var m in Model)
+                {
+                    i++;
+
+                    <tr>
+                        <td>@i</td>
+                        <td>@m.UserId</td>
+                        <td>@m.AuditAction</td>
+                        <td>@m.CreatedAt</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function RestoreProcess(id) {
+        var msg = confirm("Are you sure you want to restore this deleted entry?");
+
+        if (msg === true) {
+            $.post("/Recyclebin/RestoreProcess", { "id": id }, function (response) {
+
+                if ($.trim(response) === "Restored") {
+                    alert("Application process successfully restored");
+                    location.reload(true);
+                }
+                else {
+                    alert(Response);
+                }
+
+            });
+        }
+    }
+
+</script>
+

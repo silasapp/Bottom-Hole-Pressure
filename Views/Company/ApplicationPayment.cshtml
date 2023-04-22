@@ -1,0 +1,115 @@
+﻿@using BHP.Helpers
+@model IEnumerable<BHP.Models.MyModel.PaymentDetailsSubmit>
+@{
+    ViewData["Title"] = "Application Payment";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+
+    GeneralClass generalClass = new GeneralClass();
+}
+
+<div class="">
+
+    <div class="row" id="BackImage">
+
+        <br />
+        <h3 class="DashCompanyName"> @ViewData["Title"] </h3>
+        <hr />
+    </div>
+
+    <br />
+
+    <center>
+
+        <div style="max-width:700px; padding:20px" class="text-left card" id="PaymentDiv">
+
+            @if (ViewData["PaymentResponse"].ToString() == "true")
+            {
+                <div style="background:seagreen; padding:20px;">
+                    <big class="" style="color:white"><b>Payment Completed Successfully</b></big>
+                </div>
+
+            }
+            else
+            {
+                <big><b> Payment Summary </b></big>
+            }
+
+            <div id="DivPaymentInfo"> </div>
+            <hr />
+
+            @foreach (var item in Model)
+            {
+                <input type="text" id="txtPayAppID" readonly hidden value="@generalClass.Encrypt(item.RefNo.ToString())" />
+
+                <div class="alert" style="line-height:40px">
+
+                    <div class="alert alert-primary">
+                        <div>
+                            <span>Company Name : <b> @item.CompanyName</b> </span>
+                        </div>
+
+
+                    </div>
+
+                    <p></p>
+
+                    <div>
+                        <span class=""> Payment RRR : <b class="text-success"> @item.rrr</b> </span>
+                    </div>
+
+                    <div>
+                        <span>Reference NO : <b class=""> @item.RefNo</b> </span>
+                    </div>
+
+                    <div>
+                        <span>Application Status : <b class="text-danger"> @item.Status</b> </span>
+                    </div>
+
+                    <div>
+                        <span>Application Type : <b> @item.AppType</b> </span>
+                    </div>
+
+
+
+                    <div>
+                        <span> Amount : <b class="text-danger"> ₦@string.Format("{0:N}", item.Amount)</b> </span><br />
+                        <span> Surcharge : <b class="text-danger"> ₦@string.Format("{0:N}", item.SurChargeAmount)</b> </span><br />
+                        <span> Service Charge : <b class="text-info"> ₦@string.Format("{0:N}", item.ServiceCharge)</b> </span><br />
+                        <span> Total Amount To Pay : <b class="text-success"> ₦@string.Format("{0:N}", item.TotalAmount)</b> </span>
+                        <p></p>
+                        <div class="alert alert-danger"> <small style="font-weight:bold">Payment Description :  @ViewData["PaymentDescriptioin"] </small> </div>
+                        <input type="text" hidden value="@ViewData["PaymentDescriptioin"]" id="txtPayDescription" />
+                        <input type="text" hidden id="txtTotalAmt" value="@item.TotalAmount" />
+                        <input type="text" hidden id="txtServiceCharge" value="@item.ServiceCharge" />
+                        <input type="text" hidden id="txtAmtToPay" value="@item.Amount" />
+                    </div>
+
+                </div>
+
+            }
+
+            @{
+                var rrrLink = "https://elps.nuprc.gov.ng/Payment/Pay?rrr=" + @Model.FirstOrDefault().rrr;
+            }
+
+
+            @if (ViewData["PaymentResponse"].ToString() == "false")
+            {
+                <a class="btn btn-lg btn-primary" href="@rrrLink"> <i class="fas fa-credit-card"></i> PAY NOW </a>
+            }
+            else
+            {
+
+                <a href="/Company/UploadDocument/@generalClass.Encrypt(Model.FirstOrDefault().RequestID.ToString()))" id="" class="btn btn-info btn-lg m-b-10 m-l-5"> <i class="fas fa-clipboard-check"> </i> Upload Documents</a>
+
+                @*<a class="btn btn-lg btn-info" href="javascript:submitapp('@generalClass.Encrypt(Convert.ToString(ViewData["RequestID"]))')"><i class="fas fa-book-open" aria-hidden="true"></i> Submit Application</a>*@
+
+            }
+
+
+        </div>
+
+    </center>
+
+</div>
+

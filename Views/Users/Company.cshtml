@@ -1,0 +1,114 @@
+﻿
+@using BHP.Helpers
+@model IEnumerable<BHP.Models.DB.Companies>
+
+@{
+    ViewData["Title"] = "All Companies Profile";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+
+<h1>@ViewData["Title"]</h1>
+
+<br />
+
+<div class="card-black">
+
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-hover" id="MyAppsTable" style="cursor:pointer">
+
+            <thead>
+                <tr>
+                    <th>Company Name</th>
+                    <th>Company Email</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>State </th>
+                    <th>Company Code </th>
+                    <th>CreatedAt </th>
+                    <th>Active </th>
+                    <th>Deleted </th>
+                    <th>Action</th>
+                    <th>Logins</th>
+                    <th>Activity</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model.Any())
+                {
+                    foreach (var a in Model)
+                    {
+                        <tr>
+                            <td> @a.CompanyName</td>
+                            <td> @a.CompanyEmail </td>
+                            <td> @a.Address</td>
+                            <td> @a.City </td>
+                            <td> @a.StateName </td>
+                            <td> @a.IdentificationCode </td>
+                            <td>@a.CreatedAt.ToLongDateString()</td>
+                            <td>
+                                @if (a.ActiveStatus == false)
+                                {
+                                    <button class="btn btn-sm btn-danger" onclick="CompanyAction('@generalClass.Encrypt(a.CompanyId.ToString())', 'activate', 'Activated')"> <i class="fas fa-check-circle"></i> Activate Company </button><br />
+                                    <small>Click to activate company </small>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-sm btn-info" onclick="CompanyAction('@generalClass.Encrypt(a.CompanyId.ToString())', 'deactivate', 'Deactivated')"> <i class="fas fa-ban"></i> Deactivate Company </button><br />
+                                    <small>Click to deactivate company </small>
+                                }
+                            </td>
+
+                            <td>
+                                @if (a.DeleteStatus == true)
+                                {
+                                    <button class="btn btn-sm btn-googleplus" onclick="CompanyAction('@generalClass.Encrypt(a.CompanyId.ToString())', 'restore', 'Restored')"> <i class="fas fa-recycle"></i> Restore Company</button>
+                                    <br />
+                                    <small>Click to restore company </small>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-sm btn-primary" onclick="CompanyAction('@generalClass.Encrypt(a.CompanyId.ToString())', 'delete', 'Deleted')"> <i class="fas fa-trash"></i> Delete Company</button>
+                                    <br />
+                                    <small>Click to delete company</small>
+                                }
+                            </td>
+
+                            <td> <a href="/Company/FullCompanyProfile/@generalClass.Encrypt(a.CompanyEmail)" target="_blank" class="btn btn-secondary btn-sm"> <i class="fas fa-files-o"> </i> View profile </a></td>
+
+                            <td> <a class="btn btn-sm btn-warning" href="/Users/CompanyLogins/@a.CompanyId"> <i class="fas fa-sign-in-alt"> </i> Logins </a> </td>
+                            <td> <a class="btn btn-sm btn-success" href="/Users/Activities/@a.CompanyEmail"> <i class="fas fa-sign-in-alt"> </i> Activities </a> </td>
+                        </tr>
+
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+
+    function CompanyAction(id, option, response) {
+
+        var msg = confirm("Are you sure you want to " + option + " this company?");
+
+        if (msg === true) {
+
+            $.post("/Users/CompanyAction", { "CompID": id, "option": option, "response": response }, function (result) {
+                if (result === response) {
+                    alert("Company successfully " + response);
+                    location.reload(true);
+                }
+                else {
+                    alert(result);
+                }
+            });
+        }
+    }
+</script>

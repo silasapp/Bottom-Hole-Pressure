@@ -1,0 +1,229 @@
+﻿@using BHP.Helpers;
+@using BHP.HelpersClass;
+@model IEnumerable<BHP.Models.PermitViewModel>;
+
+@{
+    ViewData["Title"] = ViewData["PermitDocumentName"];
+    Layout = null;
+    NumberToWordHelper numberToWord = new NumberToWordHelper();
+    int i = 0;
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style type="text/css">
+    </style>
+</head>
+<body style="">
+
+    <div style="padding:0px; color:black">
+
+        <div style="width:100%;" id="divPermitPreview">
+
+            <div class="text-center">
+
+                <div style="font-family: 'Arial Black'; font-weight: bold; line-height: 30px ">
+
+                    <table style="width: 100%; border-spacing: 0;">
+                        <tr style="font-size:17px;">
+                            <td style="width:20%;">
+                                <img src="~/images/nuprc.png" alt="Logo" style="height: 150px; display: block; margin: 0 auto" />
+                            </td>
+                            <td style="width:75%;" valign="top">
+                                <div style="font-size:30px; font-weight:bold; color:forestgreen; margin-top:15px; margin-left:25px; line-height:37px">
+                                    NIGERIAN UPSTREAM PETROLEUM REGULATORY COMMISSION (NUPRC)
+                                </div>
+                                <br />
+                                <div style="font-family: Calibri; font-size: 13px; margin-left: 25px; font-weight: normal">
+                                    <span>No 7, Sylvester Ugoh Crescent Jabi, Abuja FCT | </span>
+                                    <span>PMB : 399 Garki, Abuja | </span>
+                                    <span>Phone : +234(0)9032000 | </span>
+                                    <span>Email : nuprc@nuprc.gov.ng | </span>
+                                    <span>Web : www.nuprc.gov.ng </span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+             <br />
+
+                <div style="margin:0px 30px 0px 30px; padding:10px;" class="text-left">
+
+                    <table style="width: 100%; border-spacing: 0;">
+                        <tr style="font-size:17px;">
+                            <td style="width:60%%;" valign="top">
+                                <div style="padding: 5px 0 0;">
+                                    <p style="display: inline-block; margin-bottom: -3px; background-color: #FFF; padding: 3px 10px 3px 0;">Ref. No:</p>
+                                    &nbsp;<span style="font-family: Calibri;"><b>@Model.FirstOrDefault().permitModels.FirstOrDefault().PermitNO</b></span>
+                                </div>
+                            </td>
+                            <td style="width:40%;" valign="top">
+                                <div style="padding: 5px 0 0;">
+                                    <p style="display: inline-block; margin-bottom: -3px; background-color: #FFF; padding: 3px 10px 3px 0;">Date:</p>
+                                    &nbsp;<span style="font-family: Calibri;">@Model.FirstOrDefault().permitModels.FirstOrDefault().IssuedDate.ToString()</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    <br />
+
+                    <div style="font-family:Candara; font-size:17px;">
+
+                        <div>The Managing Director,</div>
+                        <div>@Model.FirstOrDefault().permitModels.FirstOrDefault().CompanyName,</div>
+                        <div>@Model.FirstOrDefault().permitModels.FirstOrDefault().CompanyAddress,</div>
+                        <div>@Model.FirstOrDefault().permitModels.FirstOrDefault().CompanyCity,</div>
+                        <div>@Model.FirstOrDefault().permitModels.FirstOrDefault().CompanyState.</div>
+
+                        <br />
+
+                        <div>
+                            <sanp style="font-weight:bold; text-decoration:underline;">RE: APPLICATION TO CONDUCT BOTTOM HOLE PRESSURE (BHP) SURVEY </sanp>
+
+                            <p></p>
+
+                            <div style="line-height:30px; font-size:17px; text-align:justify">
+
+
+                                <p>
+                                    Reference is made to your application <b>@Model.FirstOrDefault().permitModels.FirstOrDefault().RefNo</b> dated <b>@Model.FirstOrDefault().permitModels.FirstOrDefault().DateApplied?.ToString("dd MMMM, yyyy")</b> on the above subject.
+                                </p>
+
+
+                                <p>
+                                    Following the review of your Application to conduct BHP Surveys in &nbsp; <b> @Model.FirstOrDefault().totalWell.ToString() total wells as applied</b>, approval is hereby granted for you to proceed with the BHP data acquisition exercise.
+                                </p>
+
+                                <p>
+                                    Please note that you are required to submit quarterly reports of BHP Surveys to the  Nigerian Upstream Petroleum Regulator Commission within one month after the end of each quarter in accordance with the provisions of Sections 38 and 53 of the Petroleum (Drilling and Production) Regulations, 1969 as amended.
+                                </p>
+
+                                <p>The following NUPRC personnel are hereby nominated to witness and validate the BHP Survey results:</p>
+
+                                <table class="table table-responsive table-bordered" style="font-size:small">
+                                    <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>Name</th>
+                                            <th>Location</th>
+                                            <th>Email Address</th>
+                                            <th>Designation</th>
+                                            <th>Tel No.</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @if (Model.FirstOrDefault().nominations.Any())
+                                        {
+                                            @foreach (var n in Model.FirstOrDefault().nominations)
+                                            {
+                                                i++;
+
+                                                <tr>
+                                                    <td>@i</td>
+                                                    <td>@n.StaffName</td>
+                                                    <td>@n.Location</td>
+                                                    <td>@n.StaffEmail</td>
+                                                    <td>@n.Designation</td>
+                                                    <td>@n.PhoneNumber</td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+
+                                <p>
+                                    Your total payments of the statutory BHP Survey Permit Fee of &nbsp; <b> @numberToWord.NumberToWords(Model.FirstOrDefault().permitModels.FirstOrDefault().TotalAmount) (₦@string.Format("{0:N}", Model.FirstOrDefault().permitModels.FirstOrDefault().TotalAmount))&nbsp;at N250,000 </b> for each of the <b>@numberToWord.NumberToWords(Model.FirstOrDefault().totalWell) (@Model.FirstOrDefault().totalWell)</b> proposed wells is hereby acknowledged. The Remita Retrieval References (RRR) for the payments are 1603-8609-9681, 2603-8610-0709 and 1503-8609-9567.
+                                </p>
+
+                                <p>
+                                    Should you require further clarification, please contact our Mr. O. O. Bankole, Deputy Manager Reservoir Studies
+                                    on telephone no. 01-2790000 ext. 50685, 08078893829 (GSM), or bankole.o.o@dpr.gov.ng (e-mail).
+                                </p>
+
+                                <br />
+
+                                <table style="width: 100%; border-spacing: 0;">
+                                    <tr style="font-size:17px;">
+                                        <td style="width: 66.666%;" valign="top">
+                                            <div>
+                                                Yours faithfully,
+
+                                                <br />
+
+                                                <img src="~/images/Signature/@Model.FirstOrDefault().permitModels.FirstOrDefault().Signature" style="height: 100px;" />
+
+                                                <br />
+
+                                                <div style="line-height:30px; font-size:17px">
+                                                    <span><b>@Model.FirstOrDefault().permitModels.FirstOrDefault().StaffName</b></span>,
+                                                    <br />
+                                                    <span><b>For: Commission Chief Executive (CCE), (NUPRC)</b></span>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td style="width: 33.333%;" valign="top">
+                                            <div class="text-center">
+                                                <img style="height:100px" src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model.FirstOrDefault().permitModels.FirstOrDefault().QrCode))" />
+
+                                                <br />
+                                                <small style="font-size:12px">Scan to verify</small>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</body>
+</html>
+
+
+
+<style>
+
+    #List1 li {
+        display: inline-block;
+        text-align: left;
+    }
+
+    #divPermitPreview {
+        background: url("/images/nupp.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
+</style>

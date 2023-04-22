@@ -1,0 +1,419 @@
+﻿@using BHP.Helpers;
+
+@{
+    ViewData["Title"] = "Application Process Configuration";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+}
+
+
+<h1>
+    @ViewData["Title"]
+</h1>
+
+<br />
+
+
+
+<div class="row">
+
+    <div class="col-sm-12">
+
+        <div class="col-lg-12">
+            <div class="card-black">
+                <div class="card-title">
+                    <h4> Application process list  </h4>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div class="pull-right">
+                            <button class="btn btn-primary" id="btnCreateProcess"> Create Process </button>
+                        </div>
+                        <table class="table table-bordered table-hover" style="font-size:smaller" id="AppProcess">
+                            <thead>
+                                <tr>
+                                    <th>ProcessID</th>
+                                   
+                                    <th>Role</th>
+                                    <th>Location</th>
+                                    <th>Sort</th>
+                                    <th>Process</th>
+                                    <th>Can Accept</th>
+                                    <th>Can Reject</th>
+                                    <th>Can Push</th>
+                                    <th>Can Work</th>
+                                    <th>Can Inspect</th>
+                                    <th>Can Schdule</th>
+                                    <th>Can Report</th>
+                                    <th>On Accept</th>
+                                    <th>On Reject</th>
+                                    <th>CreatedAt</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-sm-6">
+
+        <div class="card-black">
+
+            <div class="card-subtitle text-white">
+                <i class="object ungroup outline icon"></i>
+                <span class="content">
+                    Create @ViewData["Title"]
+                </span>
+            </div>
+
+            <br />
+
+            <form action="#" id="FormCreateProcess">
+
+                <div class="row">
+
+                    @*<div class="form-group col-sm-6">
+                            <label class=""> App Type </label>
+                            <select name="txtPTypes" id="txtPTypes" class="form-control" required></select>
+                            <br />
+                        </div>*@
+
+                    @*<div class="form-group col-sm-4">
+                        <label class=""> App Stage </label>
+                        <select name="txtPStages" id="txtPStages" class="form-control" required></select>
+                        <br />
+                    </div>*@
+
+                    <div class="form-group col-sm-4">
+                        <label class=""> Role </label>
+                        <select name="txtRole" id="txtRole" class="form-control" required></select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class=""> Location </label>
+                        <select name="txtLocation" id="txtLocation" class="form-control" required></select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label class=""> Sort </label>
+                        <input type="number" name="txtSort" id="txtSort" class="form-control" required />
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label class=""> Process </label>
+                        <select name="txtProcess" id="txtProcessValue" class="form-control" required>
+                            <option></option>
+                            <option value="@GeneralClass.START">@GeneralClass.START</option>
+                            <option value="@GeneralClass.NEXT">@GeneralClass.NEXT</option>
+                            <option value="@GeneralClass.DONE">@GeneralClass.DONE</option>
+                            <option value="@GeneralClass.END">@GeneralClass.END</option>
+                            <option value="@GeneralClass.BEGIN">@GeneralClass.BEGIN</option>
+                        </select>
+                        <br />
+                    </div>
+
+                </div>
+
+                <span class="content text-warning"> Process Attribute </span>
+                <hr />
+
+                <div class="row">
+
+                    <div class="form-group col-sm-4">
+                        <label class=""> Can Push </label>
+                        <select name="txtCanPush" id="txtCanPush" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class=""> Can Work </label>
+                        <select name="txtCanWork" id="txtCanWork" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class=""> Can Inspect </label>
+                        <select name="txtCanInspect" id="txtCanInspect" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class=""> Can Accept </label>
+                        <select name="txtCanAccept" id="txtCanAccept" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class=""> Can Reject </label>
+                        <select name="txtCanIntReject" id="txtCanReject" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>
+
+
+                    <div class="form-group col-sm-4">
+                        <label class=""> Can Report </label>
+                        <select name="txtCanReport" id="txtCanReport" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class=""> Can Schdule </label>
+                        <select name="txtCanSchdule" id="txtCanSchdule" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    @*<div class="form-group col-sm-4">
+                        <label class=""> Can Request </label>
+                        <select name="txtCanRequest" id="txtCanRequest" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>*@
+
+
+                    <div class="form-group col-sm-4">
+                        <label class=""> On Accept </label>
+                        <select name="txtARole" id="txtARole" class="form-control" required></select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class=""> On Reject </label>
+                        <select name="txtRRole" id="txtRRole" class="form-control" required></select>
+                        <br />
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create Proccess" class="btn btn-primary waves-effect waves-light" />
+                    <input type="reset" class="btn btn-secondary waves-effect waves-light" />
+                </div>
+
+                <div id="CreateProcessInfo"> </div>
+            </form>
+        </div>
+        <br />
+    </div>
+
+
+    <div class="col-sm-6">
+
+        <div class="card-black">
+
+            <div class="card-subtitle text-white">
+                <i class="object ungroup outline icon"></i>
+                <span class="content text-danger">
+                    Edit @ViewData["Title"]
+                </span>
+            </div>
+
+            <br />
+
+            <form action="#" id="FormEditProcess">
+
+                <input type="hidden" id="txtEditProcessID" />
+
+                <div class="row">
+
+                    @*<div class="form-group col-sm-6">
+                            <label class="text-primary"> App Tpye </label>
+                            <select name="txtEditTypes" id="txtEditPTypes" class="form-control" required></select>
+                            <br />
+                        </div>*@
+
+                    @*<div class="form-group col-sm-4">
+                        <label class="text-primary"> App Stage </label>
+                        <select name="txtEditStages" id="txtEditPStages" class="form-control" required></select>
+                        <br />
+                    </div>*@
+
+                    <div class="form-group col-sm-4">
+                        <label class="text-primary"> Role </label>
+                        <select name="txtEditRole" id="txtEditRole" class="form-control" required></select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class="text-primary"> Location </label>
+                        <select name="txtEditLocation" id="txtEditLocation" class="form-control" required></select>
+                        <br />
+                    </div>
+
+
+                    <div class="form-group col-sm-6">
+                        <label class="text-primary"> Sort </label>
+                        <input type="number" name="txtEditSort" id="txtEditSort" class="form-control" required />
+                        <br />
+                    </div>
+
+
+                    <div class="form-group col-sm-6">
+                        <label class=""> Process </label>
+                        <select name="txtEditProcess" id="txtEditProcess" class="form-control" required>
+                            <option></option>
+                            <option value="@GeneralClass.START">@GeneralClass.START</option>
+                            <option value="@GeneralClass.NEXT">@GeneralClass.NEXT</option>
+                            <option value="@GeneralClass.DONE">@GeneralClass.DONE</option>
+                            <option value="@GeneralClass.END">@GeneralClass.END</option>
+                            <option value="@GeneralClass.BEGIN">@GeneralClass.BEGIN</option>
+                        </select>
+                        <br />
+                    </div>
+
+
+                </div>
+
+                <span class="content text-warning"> Process Attribute </span>
+                <hr />
+
+                <div class="row">
+
+                    <div class="form-group col-sm-4">
+                        <label class="text-primary"> Can Push </label>
+                        <select name="txtEditCanPush" id="txtEditCanPush" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class="text-primary"> Can Work </label>
+                        <select name="txtEditCanWork" id="txtEditCanWork" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class="text-primary"> Can Inspect </label>
+                        <select name="txtEditCanInspect" id="txtEditCanInspect" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class="text-primary"> Can Accept </label>
+                        <select name="txtEditCanAccept" id="txtEditCanAccept" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class="text-primary"> Can Reject </label>
+                        <select name="txtEditCanIntReject" id="txtEditCanReject" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class="text-primary"> Can Report </label>
+                        <select name="txtEditCanReport" id="txtEditCanReport" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class="text-primary"> Can Schdule </label>
+                        <select name="txtEditCanSchdule" id="txtEditCanSchdule" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    @*<div class="form-group col-sm-4">
+                        <label class="text-primary"> Can Request </label>
+                        <select name="txtEditCanRequest" id="txtEditCanRequest" class="form-control" required>
+                            <option></option>
+                            <option value="true">YES</option>
+                            <option value="false">NO</option>
+                        </select>
+                        <br />
+                    </div>*@
+
+
+                    <div class="form-group col-sm-4">
+                        <label class="text-primary"> On Accept </label>
+                        <select name="txtEditARole" id="txtEditARole" class="form-control" required></select>
+                        <br />
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label class="text-primary"> On Reject </label>
+                        <select name="txtEditRRole" id="txtEditRRole" class="form-control" required></select>
+                        <br />
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Edit Proccess" class="btn btn-warning waves-effect waves-light" />
+                    <input type="reset" class="btn btn-secondary waves-effect waves-light" />
+                </div>
+
+                <div id="EditProccessInfo"> </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+
+

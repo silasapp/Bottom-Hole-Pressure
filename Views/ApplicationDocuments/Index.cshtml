@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewData["Title"] = "Application Documents Configurations";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+}
+
+
+
+        <h1>@ViewData["Title"]</h1>
+
+        <br />
+
+
+        <div class="row">
+
+            <div class="col-sm-4">
+
+                <div class="card-black" id="divDocuments1">
+
+                    <div class="card-subtitle">
+                        <i class="book icon"></i>
+                        <span class="content">
+                            Create Company Application Documents
+                        </span>
+                    </div>
+
+                    <form action="#" id="FormCreateAppDoc1">
+
+                        <div class="form-group">
+                            <select name="txtAppDocName1" id="txtAppDocName1" class="form-control" required></select>
+                            @*<input name="txtAppDocName" id="txtAppDocName" class="form-control" placeholder="App Doc Name ..." required />*@
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="Create Company App Doc" class="btn btn-sm ui purple button" />
+                        </div>
+
+                        <div id="CreateAppDocInfo1"> </div>
+                    </form>
+
+                </div>
+
+
+                <div class="card-black" id="divDocuments2">
+
+                    <div class="card-subtitle">
+                        <i class="book icon"></i>
+                        <span class="content">
+                            Create Facility Application Documents
+                        </span>
+                    </div>
+
+                    <form action="#" id="FormCreateAppDoc2">
+
+                        <div class="form-group">
+                            <select name="txtAppDocName2" id="txtAppDocName2" class="form-control" required></select>
+                            @*<input name="txtAppDocName" id="txtAppDocName" class="form-control" placeholder="App Doc Name ..." required />*@
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="Create Facility App Doc" class="btn btn-sm ui purple button" />
+                        </div>
+
+                        <div id="CreateAppDocInfo2"> </div>
+                    </form>
+
+                </div>
+
+                <br />
+
+                <div class="card-black">
+
+                    <div class="" id="divEditDocument">
+                        <div class="card-subtitle">
+                            <i class="book icon"></i>
+                            <span class="content">
+                                Edit Application Documents
+                            </span>
+                        </div>
+
+
+                        <form asp-action="Edit" id="FormEditAppDoc">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" id="txtEditAppDocID" />
+                            <div class="form-group">
+
+                                <input class="form-control" id="txtEditAppDocName" placeholder="Edit App Doc Name..." />
+
+                            </div>
+
+                            <div class="form-group">
+                                <select name="txtEditAppDocType" id="txtEditAppDocType" class="form-control" required>
+                                    <option> </option>
+                                    <option value="Company">Company Doc</option>
+                                    <option value="Facility">Facility Doc</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Save Edit" class="btn btn-sm ui purple button" />
+                                <input type="reset" value="Clear" class="btn btn-sm ui grey button" />
+                            </div>
+                        </form>
+
+                        <div id="EditAppDocInfo"> </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="col-sm-8">
+
+                <div class="card-black">
+
+                    <div class="card-body">
+
+                        <h4 class="card-title"> Application Documents </h4>
+                        <h6 class="card-subtitle"> List of all created Application Documents </h6>
+
+                        <table id="TableAppDoc" class="table-bordered table-striped table table-hover" style="font-size:smaller">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        App Doc ID
+                                    </th>
+                                    <th>
+                                        App Doc Elps ID
+                                    </th>
+                                    <th>
+                                        App Doc Name
+                                    </th>
+                                    <th>
+                                        Doc Type
+                                    </th>
+                                    <th>
+                                        Created At
+                                    </th>
+                                    <th>
+                                        Updated At
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+   

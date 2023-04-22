@@ -1,0 +1,253 @@
+﻿@model IEnumerable<BHP.Models.DB.RequestDuration>
+
+@using BHP.Helpers;
+
+@{
+    ViewData["Title"] = "Request Duration";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+<h1>@ViewData["Title"].ToString()</h1>
+
+<br />
+
+
+<div class="">
+
+
+    <div class="row">
+
+        <div class="col-sm-4">
+
+            <div class="card-black" id="ModelCreateRequestDurationLoadder">
+
+                <div class="card-subtitle text-white" id="">
+
+                    <i class="fa fa-clock-o"> </i>
+
+                    <span class="content">
+                        @{
+                            var year = DateTime.Now.Year + 1;
+                        }
+
+                        Create Request Duration for @year
+                    </span>
+                </div>
+
+
+                <form id="FormCreateDuration" role="form" action="#">
+
+                    <div class="form-group">
+
+                        <label for="">Start Date :</label>
+                        <br />
+                        <input type="text" class="form-control" id="txtDurationStartDate" value="" />
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="">End Date :</label>
+                        <br />
+                        <input type="text" class="form-control" id="txtDurationEndDate" value="" />
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="">Report End Date :</label>
+                        <br />
+                        <input type="text" class="form-control" id="txtReportEndDate" value="" />
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="">Contact Person :</label>
+                        <br />
+                        <input type="text" class="form-control" required id="txtContactPerson" value="" placeholder="Fullname; Phone Nos & Email Address" />
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="">Proposal Year :</label>
+                        <br />
+                        <input type="number" readonly class="form-control" id="txtDurationProposalYear" value="@year" />
+
+                    </div>
+
+                    <p></p>
+
+                    <input type="submit" class="btn btn-primary waves-effect waves-light" value="Create Duration" />
+                    <input type="reset" class="btn waves-effect waves-light btn-warning" />
+                    <br /><br />
+
+                    <div id="RequestDurationInfo"> </div>
+
+                </form>
+
+            </div>
+
+
+
+            <br />
+
+
+
+            <div class="card-black" id="EditModelCreateRequestDurationLoadder">
+
+                <div class="card-subtitle text-white">
+
+                    <i class="fa fa-clock-o"> </i>
+
+                    <span class="content">
+
+                        Edit Request Duration for <span id="txtEditDurationYear"></span>
+                    </span>
+                </div>
+
+
+                <form id="FormEditDuration" role="form" action="#">
+
+                    <input type="text" id="txtEditDuration" hidden />
+
+                    <div class="form-group">
+
+                        <label for="">Start Date :</label>
+                        <br />
+                        <input type="text" class="form-control" id="txtEditDurationStartDate" value="" />
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="">End Date :</label>
+                        <br />
+                        <input type="text" class="form-control" id="txtEditDurationEndDate" value="" />
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="">Report End Date :</label>
+                        <br />
+                        <input type="text" class="form-control" id="txtEditReportEndDate" value="" />
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="">Contact Person :</label>
+                        <br />
+                        <input type="text" class="form-control" required id="txtEditContactPerson" value="" placeholder="Fullname; Phone Nos & Email Address" />
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="">Proposal Year :</label>
+                        <br />
+                        <input type="number" readonly class="form-control" id="txtEditDurationProposalYear" value="" />
+
+                    </div>
+
+                    <p></p>
+
+                    <input type="submit" class="btn btn-primary waves-effect waves-light" value="Edit Duration" />
+                    <input type="reset" class="btn waves-effect waves-light btn-warning" />
+
+                    <br /><br />
+
+                    <div id="EditRequestDurationInfo"> </div>
+
+                </form>
+
+                <br />
+
+            </div>
+
+
+        </div>
+
+        <div class="col-sm-8">
+
+            <div class="card-black">
+
+                <div id="TableRequestDuration">
+
+                    <table class="table table-bordered table-hover " id="MyFacilityTable">
+
+                        <thead>
+                            <tr>
+
+                                <th> Start Date</th>
+                                <th> End Date </th>
+                                <th> Proposal Year </th>
+                                <th> Report End Date </th>
+                                <th> Contact Person </th>
+                                <th> Created At </th>
+                                <th> Updated At </th>
+                                <th> Actions </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var m in Model)
+                            {
+                                if (m.DeleteStatus == true)
+                                {
+                                    <tr style="background-color:palevioletred">
+                                        <td>@m.RequestStartDate.ToShortDateString()</td>
+                                        <td>@m.RequestEndDate.ToShortDateString()</td>
+                                        <td>@m.ProposalYear</td>
+                                        <td>@m.ReportEndDate?.ToShortDateString()</td>
+                                        <td><small>@m.ContactPerson</small></td>
+                                        <td>@m.CreatedAt.ToString()</td>
+                                        <td>@m.UpdatedAt.ToString()</td>
+                                        <td><b>Deleted</b></td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>@m.RequestStartDate.ToShortDateString()</td>
+                                        <td>@m.RequestEndDate.ToShortDateString()</td>
+                                        <td>@m.ProposalYear</td>
+                                        <td>@m.ReportEndDate?.ToShortDateString()</td>
+                                        <td><small>@m.ContactPerson</small></td>
+                                        <td>@m.CreatedAt.ToString()</td>
+                                        <td>@m.UpdatedAt.ToString()</td>
+                                        <td>
+                                            <div class="btn-group">
+
+                                                <button class="btn btn-sm btn-primary waves-effect waves-light" onclick="getEditDuration('@generalClass.Encrypt(m.DurationId.ToString())','@m.ProposalYear', '@m.RequestStartDate', '@m.RequestEndDate', '@m.ReportEndDate', '@m.ContactPerson')"><i class="fa fa-pencil-alt"> </i> Edit</button>
+                                                <button class="btn btn-sm btn-danger waves-effect waves-light" onclick="DeleteDuration('@generalClass.Encrypt(m.DurationId.ToString())')"><i class="fa fa-trash-alt"> </i> Delete</button>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+

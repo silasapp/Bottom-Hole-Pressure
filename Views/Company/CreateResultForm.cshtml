@@ -1,0 +1,101 @@
+﻿
+@model BHP.Models.DB.Application;
+@{
+    ViewData["Title"] = "SubSurface Pressure Survey Report";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+
+}
+
+<div class="row" id="BackImage">
+
+    <br />
+    <h3 class="DashCompanyName">@ViewData["Title"]</h3>
+    <br />
+</div>
+
+<br />
+
+<div id="SubmitSurveyResultLoader" style="padding:20px">
+
+    <form action="#" id="SubmitSurveyResult">
+
+        <div class="row">
+            <div class="col-md-7">
+                <div style="display:none"><input value="@ViewData["ReqId"]" id="RequestId" name="RequestId" /></div>
+                <span>
+                    <label for="UploadedFile" class="btn btn-primary"><i class="fas fa-cloud-upload-alt"></i> Upload Template B (Excel File)</label>
+                    <label style="color:green; font-weight:bold">File Name:</label> <label id="filename" name="filename" class="label-success"></label>
+                    <input type="file" id="UploadedFile" style="visibility:hidden" name="UploadedFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                </span>
+
+            </div>
+            @{
+                if (ViewData["Rejected"] != null)
+                {
+                    <div style="display:none"><input value="@ViewData["Rejected"]" id="Rejectedstatus" name="Rejectedstatus" /></div>
+                    <div class="col-md-2">
+                        <button type="submit" name="Submit" class="btn btn-danger"><i class="fas fa-exchange-alt"></i> Resubmit Survey Result</button>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-2">
+                        <input type="submit" name="Submit" value="Submit Template B" class="btn btn-success" />
+                    </div>
+                }
+            }
+        </div>
+        <div id="successmessage"> </div>
+        <div id="errormessage"> </div>
+
+
+
+    </form>
+
+</div>
+
+<hr /><br />
+
+<div class="row">
+    <div class="col-md-12" style="background-color:white">
+        <label style="margin-left:300px; font-weight:bolder; font-size:25px; color:green"> @ViewData["Year"].ToString() SubSurface Pressure Survey Report</label>
+        <hr />
+        <table class="table table-striped table-bordered table-condensed table-responsive SurveyDT" style="font-size:small">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Reservoir</th>
+                    <th>Remaining Reserves</th>
+                    <th>Well</th>
+                    <th>Date of Survey</th>
+                    <th>Oil(mmbbl) NCO at 60/60</th>
+                    <th>Water (mmbbl)</th>
+                    <th>Gas(MMscf)</th>
+                    <th>BS&W(%)</th>
+                    <th>GOR(scf/mmbbl) </th>
+                    <th>Bean(64th) </th>
+                    <th>Datum Depth (ft. ss)</th>
+                    <th>Initial RES. Pressure(psig)</th>
+                    <th>THP(psig)</th>
+                    <th>CHP(psig)</th>
+                    <th>FBHP MP perf.(psig)</th>
+                    <th>SBHP MP perf.(psig)</th>
+                    <th>Calc. Res. Press. at datum(psig)</th>
+                    <th>Productivity Index (b/d/psig)</th>
+                    <th>Date of Last Survey</th>
+                    <th>Remarks</th>
+
+                </tr>
+            </thead>
+            <tbody></tbody>
+
+        </table>
+    </div>
+
+</div>
+
+
+
+
+
+

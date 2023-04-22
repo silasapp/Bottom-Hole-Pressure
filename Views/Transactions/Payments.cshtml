@@ -1,0 +1,67 @@
+﻿@model IEnumerable<BHP.Models.TransactionDetails>
+@using BHP.Helpers;
+
+@{
+    ViewData["Title"] = "All Payments Details";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<br />
+
+
+<div class="card-black">
+
+    <table class="table table-bordered table-hover" style="font-size:small" id="MyAppsTable">
+
+        <thead>
+            <tr>
+                <th>Payment Ref</th>
+                <th>Company</th>
+
+                <th>App Ref</th>
+                <th>RRR</th>
+
+                <th>Fee</th>
+                <th>Service Charge</th>
+                <th>Total Amount Paid</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Trans. Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @if (Model.Any())
+            {
+                foreach (var a in Model)
+                {
+                    var status =
+                    a.TransStatus == GeneralClass.PaymentPending ? "btn-danger" :
+                    a.TransStatus == GeneralClass.PaymentCompleted ? "btn-warning" :
+                    "btn-secondary";
+
+                    <tr>
+                        <td>  @a.TransRef </td>
+                        <td> <b> @a.CompanyName</b> </td>
+
+                        <td>  <b class="text-primary">@a.RefNo</b> </td>
+                        <td>  <b class="text-danger">@a.RRR</b> </td>
+
+                        <td>  ₦@string.Format("{0:N}", a.Amount)</td>
+                        <td>  ₦@string.Format("{0:N}", a.ServiceCharge)</td>
+                        <td>  ₦@string.Format("{0:N}", a.TotalAmount)</td>
+                        <td>  <span class="btn btn-sm @status">@a.TransStatus</span></td>
+                        <td>  <small>@a.Description</small></td>
+                        <td>  @a.TransDate</td>
+                    </tr>
+                }
+            }
+        </tbody>
+
+    </table>
+
+</div>
+

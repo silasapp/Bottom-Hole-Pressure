@@ -1,0 +1,139 @@
+﻿
+@{
+    ViewData["Title"] = "Zones & State Mapping";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+}
+
+<h1> @ViewData["Title"]</h1>
+<br />
+<div class="row">
+
+    <div class="col-sm-4">
+
+        <div class="card-black">
+
+            <div class="card-subtitle text-white">
+                <i class="book icon"></i>
+                <span class="content">
+                    Create Zones & States Mapping
+                </span>
+            </div>
+
+            <form action="#" id="FormCreateZoneState">
+
+                <div class="form-group">
+
+                    <label class="control-label"> Zones </label>
+                    <select name="txtZones" id="txtZones" class="form-control" required></select>
+
+                    <br />
+
+                    <label class="control-label"> States </label>
+                    <select name="txtStates" id="txtStates" class="form-control" required></select>
+
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create Zone and State" class="ui teal small button" />
+                </div>
+
+                <div id="ZoneStatesInfo"> </div>
+            </form>
+
+
+        </div>
+
+        <br />
+
+        <div class="card-black">
+
+            <div class="card-subtitle text-white">
+                <i class="book icon"></i>
+                <span class="content">
+                    Edit Zones & States Mappings
+                </span>
+            </div>
+
+            <form asp-action="Edit" id="FormEditZoneState">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" id="txtEditZoneStateID" />
+                <br />
+                <div class="text-sm-left" id="relationshipStatus"> </div>
+
+
+                <br />
+
+                <label class="control-label">Select New Zones </label>
+                <select name="txtEditZones" id="txtEditZones" class="form-control" required></select>
+
+                <br />
+
+                <label class="control-label">Select New States </label>
+                <select name="txtEditStates" id="txtEditStates" class="form-control" required></select>
+
+                <br />
+
+                <div class="form-group">
+                    <input type="submit" value="Save Edit" class="ui teal small button" />
+                    <input type="reset" id="FormEditZoneStateReset" class="ui grey small button" />
+                </div>
+            </form>
+
+            <div id="EditZonalStateInfo"> </div>
+        </div>
+
+
+    </div>
+
+    <div class="col-sm-8">
+
+        <div class="card-black">
+
+            <div class="card-body">
+
+                <h4 class="card-title"> @ViewBag.Title</h4>
+                <h6 class="card-subtitle text-white"> List of all created @ViewBag.Title </h6>
+
+
+                <table id="TableZoneState" class="table table-hover table-bordered" style="font-size:small">
+                    <thead>
+                        <tr>
+                            <th>
+                                ZoneState ID
+                            </th>
+                            <th>
+                                Zone ID
+                            </th>
+                            <th>
+                                State ID
+                            </th>
+                            <th>
+                                Country
+                            </th>
+                            <th>
+                                State
+                            </th>
+                            <th>
+                                Zonal Office
+                            </th>
+
+                            <th>
+                                Created At
+                            </th>
+                            <th>
+                                Updated At
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+

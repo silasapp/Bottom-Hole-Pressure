@@ -1,0 +1,101 @@
+﻿@model BHP.Models.MyModel.RequestModel
+@using BHP.Helpers;
+@{
+    ViewData["Title"] = "Proposal Application";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+<div class="row" id="BackImage">
+
+    <br />
+    <h3 class="DashCompanyName">@ViewData["Title"]</h3>
+    <br />
+</div>
+
+<br />
+
+<div class="row">
+
+    <div class="col-sm-6" style="background-color;">
+        <div style="border-right: 2px solid #e7e4e4; padding:20px;">
+            <a href="/Company/TemplateADownload" class="btn btn-success btn-sm" title="Click to download this excel template"><i class="fas fa-download"></i> Download Template A</a>
+            <p></p>
+            <b class="text-danger">Steps to apply for Survey Pressure Proposal</b>
+            <p></p>
+            <ul>
+                <li>Download Template A (Excel) file above.</li>
+                <li>Fill the excel sheet.</li>
+                <li>Click on the <b class="text-dark">Apply</b> button and upload the filled Template A (Excel) file.</li>
+                <li>Click on submit and continue button.</li>
+                <li>Make your REMITA payment.</li>
+                <li>Submit your proposal.</li>
+                <li>Please not that your Excel version should be <b class="text-danger">Excel 2007</b> and above.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-sm-6" style="background-color:;">
+        <div style="padding:20px;">
+            <a href="/Company/TemplateBDownload" class="btn btn-success btn-sm" title="Click to download this excel template"><i class="fas fa-download"></i> Download Template B</a>
+            <p></p>
+            <b class="text-danger">Steps to apply for Survey Pressure Report</b>
+            <p></p>
+            <ul>
+                <li>Download Template B (Excel) file above</li>
+                <li>Fill the excel sheet</li>
+                <li>Click on the <b class="text-dark">Submit Survey Report</b> button and upload the filled Template B (Excel) file</li>
+                <li>Click on submit and continue button</li>
+                <li>Please not that your Excel version should be <b class="text-danger">Excel 2007</b> and above.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<p><br /></p>
+
+        <table class="table table-striped table-bordered customTable">
+            <thead>
+                <tr>
+                    <th>Ref. No.</th>
+                    <th>Company Name </th>
+                    <th>Proposal Year</th>
+                    <th>Request Created Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in ViewBag.Requestlist)
+                {
+                    <tr>
+                        <td><span class="text-danger">@item.RequestRefNo</span></td>
+                        <td><b class="text-primary">@item.companyname</b></td>
+                        <td><b>@item.ProposalYear</b></td>
+                        <td>@item.CreatedAt</td>
+                        <td>
+                            @{
+                                if (ViewBag.SurveyStatus == GeneralClass.END)
+                                {
+                                    <a href="/Company/CreateResultForm/@generalClass.Encrypt(Convert.ToString(item.RequestId))" class="btn-sm btn btn-success"><i class="fas fa-address-card"></i> Submit Survey Report</a>
+
+                                }
+                                else if (item.IsSubmitted == false)
+                                {
+                                    <a href="/Company/CreateApplicationForm/@generalClass.Encrypt(Convert.ToString(item.RequestId))" class="btn-sm btn btn-success"><i class="fas fa-edit"></i> Submit Survey Proposal</a>
+                                }
+                            }
+                        </td>
+                    </tr>
+
+                }
+
+
+            </tbody>
+
+        </table>
+    
+
+
+
+

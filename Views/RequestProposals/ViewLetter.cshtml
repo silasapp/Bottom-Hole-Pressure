@@ -1,0 +1,214 @@
+﻿@using BHP.Helpers;
+@model IEnumerable<BHP.Models.ProposalRequestLetter>;
+
+@{
+    ViewData["Title"] = ViewData["ProposalLetter"];
+    Layout = null;
+}
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title></title>
+        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <style type="text/css">
+        </style>
+    </head>
+    <body style="">
+
+        <div style="padding:0px; color:black">
+
+            <div style="width:100%;" id="divPermitPreview">
+
+                <div class="text-center">
+
+                    <div style="font-family:'Times New Roman'; font-weight:bold; line-height:30px">
+
+                        <div style="font-size:40px; color:forestgreen; margin-top:35px"> MINISTRY OF PETROLEUM RESOURCES </div>
+
+                        <div style="font-size:25px; color:forestgreen; margin-top:25px; margin-bottom:20px;">  Nigerian Upstream Petroleum Regulator Commission </div>
+
+                        <span style="border-bottom: 2px dotted forestgreen; font-size:20px;"> 7 Kofo Abayomi St, Victoria Island, Lagos. </span>
+
+                    </div>
+
+                    <p></p>
+
+                    <div style="margin:0px 30px 0px 30px; padding:10px;" class="text-left">
+
+                        <table style="width: 100%; border-spacing: 0;">
+                            <tr style="font-size:17px;">
+                                <td style="width: 33.333%;" valign="top">
+                                    <div style="border-bottom: dotted 2px #00a900;padding: 5px 0 0;">
+                                        <p style="display: inline-block; margin-bottom: -3px; background-color: #FFF; padding: 3px 10px 3px 0; color: #00a900;">P.M.B. No:</p>
+                                        &nbsp;<span style="font-family: Calibri;">12650, LAGOS</span>
+                                    </div>
+                                    <p></p>
+                                    <div style="border-bottom: dotted 2px #00a900;padding: 5px 0 0;">
+                                        <p style="display: inline-block; margin-bottom: -3px; background-color: #FFF; padding: 3px 10px 3px 0; color: #00a900;">Telephone:</p>
+                                        &nbsp;<span style="font-family: Calibri;">2970000, 4611777</span>
+                                    </div>
+                                </td>
+                                <td style="width: 33.333%;">
+                                    <img src="~/images/nuprc.png" alt="Logo" style="height: 100px; display: block; margin: 0 auto" />
+                                </td>
+                                <td style="width: 33.333%;" valign="top">
+                                    <div style="border-bottom: dotted 2px #00a900;padding: 5px 0 0;">
+                                        <p style="display: inline-block; margin-bottom: -3px; background-color: #FFF; padding: 3px 10px 3px 0; color: #00a900;">Ref. No:</p>
+                                        &nbsp;<span style="font-family: Calibri; font-size:13px;">@Model.FirstOrDefault().letterModels.FirstOrDefault().GeneratedNo</span>
+                                    </div>
+                                    <p></p>
+                                    <div style="border-bottom: dotted 2px #00a900;padding: 5px 0 0;">
+                                        <p style="display: inline-block; margin-bottom: -3px; background-color: #FFF; padding: 3px 10px 3px 0; color: #00a900;">Date:</p>
+                                        &nbsp;<span style="font-family: Calibri;">@Model.FirstOrDefault().letterModels.FirstOrDefault().StartDate.ToString("MMMM dd, yyyy")</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <br />
+
+                        <div style="font-family:Candara; font-size:16px;">
+
+                            <div>The Managing Director,</div>
+                            <div>@Model.FirstOrDefault().letterModels.FirstOrDefault().CompanyName,</div>
+                            <div>@Model.FirstOrDefault().letterModels.FirstOrDefault().CompanyAddress,</div>
+                            <div>@Model.FirstOrDefault().letterModels.FirstOrDefault().CompanyCity,</div>
+                            <div>@Model.FirstOrDefault().letterModels.FirstOrDefault().CompanyState.</div>
+
+                            <br />
+
+                            <div>
+                                <sanp style="font-weight:bold; text-decoration:underline;">@Model.FirstOrDefault().letterModels.FirstOrDefault().Year BOTTOM-HOLE PRESSURE (BHP) SURVEY PROGRAMME </sanp>
+
+                                <p></p>
+
+                                <div style="line-height:30px; font-size:16px; text-align:justify">
+
+
+                                    <p>
+                                        In accordance with Section 38 of the Petroleum (Drilling and Production) Regulations, 1969 as amended, you are requested to submit your <b>@Model.FirstOrDefault().letterModels.FirstOrDefault().Year</b> proposed subsurface pressure surveys programme
+                                        to the Director, Petroleum Resources on or before <b>@Model.FirstOrDefault().letterModels.FirstOrDefault().EndDate.ToLongDateString()</b> using the attached <b>TEMPLATE A</b>.
+                                    </p>
+
+                                    <p>
+                                        You are also requested to submit the result of all sub-surface pressure surveys carried out by your company in @Model.FirstOrDefault().letterModels.FirstOrDefault().PreviousYear
+                                        to the Director, Petroleum Resources on or before <b> @Model.FirstOrDefault().letterModels.FirstOrDefault().ReportEndDate?.ToLongDateString()</b> using <b>TEMPLATE B</b>.
+                                    </p>
+
+                                    <p>
+                                        Your proposal should take into acccount the survey frequency criteria indicated in the table below:
+                                    </p>
+
+                                    <table class="table table-responsive table-bordered" style="font-size:small">
+                                        <thead>
+                                            <tr>
+                                                <th>S/N</th>
+                                                <th>State of Reservoir</th>
+                                                <th>Pressure Decline</th>
+                                                <th>Required Frequency of <br />Measurements or Surveys</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Reservoir pressure above bubble point</td>
+                                                <td></td>
+                                                <td>At least once a quarter</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Reservoir pressure above bubble point</td>
+                                                <td>˂ 2% over the previous year</td>
+                                                <td>At least once a quarter</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>3</td>
+                                                <td>Reservoir pressure above bubble point</td>
+                                                <td>˃= 2% over the previous year</td>
+                                                <td>Twice a year</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>4</td>
+                                                <td>Reservoir pressure below bubble point <br /> <b>(and more than 10 years production)</b></td>
+                                                <td>˂ 10% over the initial pressure</td>
+                                                <td>Once a year</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <p>
+                                        Please note that for reservoirs whose overall pressure decline is more than 10%,
+                                        you are required to furnish the Department with detailed plan on how you intend to arrest the observed decline.
+                                    </p>
+
+                                    <p>
+                                        Should you require further clarification, please contact <b> @Model.FirstOrDefault().letterModels.FirstOrDefault().ContactName</b>
+                                    </p>
+
+                                    <br />
+
+                                    <table style="width: 100%; border-spacing: 0;">
+                                        <tr style="font-size:17px;">
+                                            <td style="width: 66.666%;" valign="top">
+                                                <div>
+                                                    Yours faithfully,
+
+                                                    <br />
+
+                                                    <img src="~/images/Signature/" style="height: 70px;" />
+
+                                                    <br />
+
+                                                    <div style="line-height:30px; font-size:17px">
+                                                        <span><b>Engr.</b></span>,
+                                                        <br />
+                                                        <span><b>For: Commission Chief Executive (CCE), (NUPRC)</b></span>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td style="width: 33.333%;" valign="top">
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </body>
+    </html>
+
+
+
+<style>
+
+    #List1 li {
+        display: inline-block;
+        text-align: left;
+    }
+
+    #divPermitPreview {
+        background: url("/images/waterMark.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        
+    }
+</style>

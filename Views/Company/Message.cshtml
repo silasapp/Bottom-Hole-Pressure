@@ -1,0 +1,85 @@
+﻿@model IEnumerable<BHP.Models.AppMessage>
+
+@{
+    ViewData["Title"] = "Message";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+}
+
+<div>
+
+    <div class="row" id="BackImage">
+
+        <br />
+        <h3 class="DashCompanyName">  @ViewData["Title"] </h3>
+        <hr />
+    </div>
+
+    <br />
+
+    <center>
+        <div face="Helvetica, arial, sans-serif">
+            <div style=" width:800px;background-color: #ece8d4; padding: 5px 0 5px 0;">
+                <img src="https://ROMS.dpr.gov.ng/Content/Images/mainlogo.png" alt="Logo" style="width: 98%; height: 120px; display: block; margin: 0 auto;" />
+            </div>
+
+            <div style="background-color: #ece8d4; width:800px; min-height:200px;" class="text-left">
+                <div style="padding: 10px 30px 30px 30px;">
+                    <h5 style="text-align: center;font-weight: 300;padding-bottom: 10px; border-bottom: 1px solid #ddd;">@Model.FirstOrDefault().Subject</h5>
+                    <p>Dear Sir/Madam,</p>
+                    <p></p>
+                    <p style="line-height:30px; text-align:justify">
+                        @Model.FirstOrDefault().Content
+                    </p>
+                    <table style="width: 100%;">
+
+                        @foreach (var m in Model)
+                        {
+                            <tr>
+                                <td style="width: 200px;"><b>App Ref No:</b></td>
+                                <td>@m.RefNo</td>
+                            </tr>
+
+                            <tr>
+                                <td style="width: 200px;"><b>Generated Ref No:</b></td>
+                                <td>@m.GeneratedNo</td>
+                            </tr>
+
+                            <tr>
+                                <td><b>Company:</b></td>
+                                <td>@m.CompanyDetails</td>
+                            </tr>
+
+                            <tr>
+                                <td><b>Status:</b></td>
+                                <td>@m.Status</td>
+                            </tr>
+                            <tr>
+                                <td><b>Total Amount:</b></td>
+                                <td>₦@string.Format("{0:N}", m.TotalAmount)</td>
+                            </tr>
+                        }
+
+                    </table>
+
+                    <hr />
+
+                    <p>
+                        Kindly Note that this is NOT an Approval Letter. You are Required to go back online
+                        and complete all neccessary steps.
+                    </p>
+                    <br />
+                    <p>
+                         Nigerian Upstream Petroleum Regulator Commission<br />
+                        <small>(Bottom Hole Pressure Survey)</small>
+                    </p>
+                </div>
+            </div>
+            <div style="padding: 10px 0; text-align: center; background-color: #888; color: #f9f9f9; width:800px">
+                &copy; @DateTime.Now.Year  Nigerian Upstream Petroleum Regulator Commission &minus; NUPRC Nigeria
+            </div>
+        </div>
+
+    </center>
+</div>
+
+

@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Error";
+}
+
+<!DOCTYPE html>
+
+<style>
+    div.container4 {
+        height: 10em;
+        position: relative;
+        margin: 0;
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%)
+    }
+</style>
+
+<html>
+
+<body>
+
+        <div class="container container4">
+
+            <div class="row">
+
+                <div class="col-sm-4">
+                    <img src="~/images/sad.png" style="height:350px; padding:1px" />
+                </div>
+
+                <div class="col-sm-8">
+                    <br /><br />
+                    <h1 class="text-danger">Error <img src="~/images/cry.gif" style="height:70px; padding:1px" /></h1>
+
+                    <hr />
+
+                    <h3 style="font-family:'Segoe UI Symbol'"> <i class="fa fa-exclamation-circle"> </i> @ViewData["Message"]</h3>
+                </div>
+
+            </div>
+
+            <br />
+
+            <div class="text-right">
+                <a href='javascript:history.go(-1)' class="btn btn-danger">Sorry. Go Back</a>
+                <a href='/Home' class="btn btn-danger">Or Logout </a>
+            </div>
+
+        </div>
+
+    
+
+</body>
+</html>

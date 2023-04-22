@@ -1,0 +1,262 @@
+﻿
+@using BHP.Helpers;
+@model IEnumerable<BHP.Models.DB.Messages>
+@using Microsoft.AspNetCore.Http;
+@using BHP.Controllers.Authentication;
+
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+<div>
+    <div class="row" id="BackImage">
+
+        <div class="col-sm-4 text-left">
+            <br />
+            <h2>Welcome</h2>
+            <hr />
+            <b class="DashCompanyName">@generalClass.Decrypt(Context.Session.GetString(AuthController.sessionUserName)) </b>
+        </div>
+
+        <div class="col-sm-8">
+
+            <div class="row">
+
+                <div class="col-sm-3">
+                    <div class="FirstDashCount">
+                        <b>@ViewData["AllCompanyApps"]</b>
+                    </div>
+                    <div class="DashCount">
+                        <br />
+                        Application(s)
+                    </div>
+
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="FirstDashCount">
+                        <b>@ViewData["AllProcessingApps"]</b>
+                    </div>
+                    <div class="DashCount">
+                        <br />
+                        On Processing
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="FirstDashCount">
+                        <b>@ViewData["AllCompanyPermit"]</b>
+                    </div>
+                    <div class="DashCount">
+                        <br />
+                        Total Approval(s)
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="FirstDashCount">
+                        <b>@ViewData["AppExpiring"]</b>
+                    </div>
+                    <div class="DashCount">
+                        <br />
+                        Expiring in 30 days
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <br />
+
+
+    <div>
+
+        <h4 class=""> Notification(s) </h4>
+
+        <p class="text-danger"> Find new updates about your applications here.</p>
+
+        <hr />
+
+        @{
+            if (ViewBag.ProposalRejectionNotificationStatus != null)
+            {
+                <div class="alert alert-danger">
+                    <p class=""> Your survey proposal application was rejected with the comment => @ViewBag.ProposalRejectionNotificationComment <br /><br /> Kindly click on<a href="/Company/CreateApplicationForm/@generalClass.Encrypt(ViewBag.ProposalRejectionNotificationRequestId.ToString())"> <b>RESUBMIT PROPOSAL</b> </a> and resubmit your proposal after neccessary corrections.</p>
+                </div>
+            }
+            if (ViewBag.reportRejectionNotificationStatus != null)
+            {
+                <div class="alert alert-danger">
+                    <p class=""> Your survey report application was rejected with the comment => @ViewBag.reportRejectionNotificationComment <br /><br /> Kindly click on<a href="/Company/CreateResultForm/@generalClass.Encrypt(ViewBag.reportRejectionNotificationRequestId.ToString())"> <b>RESUBMIT REPORT</b> </a> and resubmit your report after neccessary corrections.</p>
+                </div>
+            }
+            if (ViewBag.ReportButton != null)
+            {
+                <div class="alert alert-info">
+                    <p>Your survey proposal was successfully approved, kindly click on <a href="/Company/CreateResultForm/@generalClass.Encrypt(Convert.ToString(ViewBag.ReqID))" class="btn-sm btn btn-success"><i class="fas fa-address-card"></i> <b>SUBMIT SURVEY REPORT</b></a> to submit your survey report.</p>
+                </div>
+            }
+        }
+
+
+        @if (Convert.ToInt32(ViewData["ProposalRequestNotify"].ToString()) > 0)
+        {
+            foreach (var m in (ViewBag.RequestLists as List<BHP.Models.DB.RequestProposal>))
+            {
+                <div class="alert alert-primary">
+                    <p class=""> You have received <b>@GeneralClass._Year BOTTOM-HOLE PRESSURE (BHP) SURVEY PROGRAMME</b> request proposal. Kindly go to <a href="/Company/AcknowledgeRequest/@generalClass.Encrypt(m.RequestId.ToString())"> <b>Proposal Request</b> </a> and submit your proposal.</p>
+                </div>
+            }
+
+            <br />
+        }
+
+
+        @if (Convert.ToInt32(ViewData["Unfinished"].ToString()) > 0 || Convert.ToInt32(ViewData["Notify"].ToString()) > 0)
+        {
+            <div class="alert alert-primary">
+                <p>
+                    <b class=""> You have some unfinished applications. Kindly go to <a href="/Company/MyApplications"> My Applications </a> and continue.</b> <br />
+                </p>
+            </div>
+            <br />
+        }
+
+
+        @if (Convert.ToInt32(ViewData["ScheduleNotify"].ToString()) > 0)
+        {
+            <div class="alert alert-warning">
+                <p>
+                    <b class=""> You have been invited for a schedule. Kindly go to <a href="/Company/MySchedule"> My Schedule </a> and respond to it.</b> <br />
+                </p>
+            </div>
+        }
+
+
+
+    </div>
+
+            <br />
+
+            <div class="row">
+
+                <div class="col-sm-9">
+
+                    <h5> Recent Message(s) </h5>
+
+                    <table class="table table-hover table-bordered" style="font-size:medium">
+
+                        <thead class="" style="background:#1a72d2;color: #fff">
+                            <tr>
+                                <th> Seen </th>
+                                <th> Subject </th>
+                                <th> Date </th>
+                            </tr>
+                        </thead>
+
+                        <caption> <a href="/Company/Messages" target="_blank" class="text-dark"> Showing 10 Application Messages Only - See More </a> </caption>
+
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                @foreach (var m in Model)
+                                {
+                                    var comp_id = generalClass.Encrypt(m.CompanyId.ToString());
+                                    var msg_id = generalClass.Encrypt(m.MessageId.ToString());
+
+                                    @if (m.Seen == true)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @if (m.Seen == true)
+                                                {
+                                                    <i class="fas fa-envelope-open text-dark"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="fas fa-envelope text-success"></i>
+                                                }
+                                            </td>
+
+                                            <td>
+                                                <a href="/Company/Message/@comp_id/@msg_id" target="_blank" style="color:darkgoldenrod"> @m.Subject </a>
+                                            </td>
+
+                                            <td> @m.CreatedAt.ToString()</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr style="background:#e7f8ef">
+                                            <td>
+                                                @if (m.Seen == true)
+                                                {
+                                                    <i class="fas fa-envelope-open text-dark"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="fas fa-envelope text-primary"></i>
+                                                }
+                                            </td>
+
+                                            <td>
+                                                <a href="/Company/Message/@comp_id/@msg_id" target="_blank" style="color:darkgoldenrod"> @m.Subject </a>
+                                            </td>
+
+                                            <td> @m.CreatedAt.ToString()</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-sm-3">
+
+                    <h5> My Approval(s) </h5>
+
+                    <table class="table table-bordered table-hover" style="font-size:smaller">
+
+                        <thead>
+                            <tr>
+                                <th> ### </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @if ((ViewBag.Permits as List<BHP.Models.DB.Permits>) != null)
+                            {
+                                foreach (var m in (ViewBag.Permits as List<BHP.Models.DB.Permits>))
+                                {
+                                    <tr>
+                                        <td>
+                                            <p><b class="text-primary"> @m.PermitNo</b></p>
+
+                                            <div>
+                                                <a class="btn btn-dark btn-sm" href="/Permits/ViewPermit/@generalClass.Encrypt(m.PermitId.ToString())/_view" target="_blank"> <i class="fa fa-eye"> </i> View </a>
+                                                <a class="btn btn-warning btn-sm" href="/Permits/ViewPermit/@generalClass.Encrypt(m.PermitId.ToString())/_download" target="_blank"> <i class="fa fa-file-download"> </i> Download </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+
+                        <caption>  </caption>
+
+                    </table>
+
+                </div>
+            </div>
+
+
+        </div>
+

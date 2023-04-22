@@ -1,0 +1,93 @@
+﻿@using BHP.Helpers
+@model IEnumerable<BHP.Models.StaffDesk>
+
+
+@{
+    ViewData["Title"] = "All applications on staff desk";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<br />
+
+
+<div class="card-black">
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-hover" id="MyAppsTable" style="cursor:pointer; font-size:small">
+
+            <thead>
+                <tr>
+                    <th>Staff Fullname</th>
+                    <th>Staff Email</th>
+                    <th>Staff Field Office</th>
+                    <th>Staff Role</th>
+                    <th>Apps on Desk </th>
+                    <th>Total Apps </th>
+                    <th> Comment </th>
+                    <th>Active Status </th>
+                    <th>Deleted Status </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model.Any())
+                {
+                    foreach (var a in Model)
+                    {
+                        @if (a.AppCount > 10 || a.ActiveStatus == "Deactivated" || a.DeletedStatus == "Deleted")
+                        {
+                            <tr style="background:#f68787">
+                                <td> @a.StaffName</td>
+                                <td> @a.StaffEmail</td>
+                                <td> @a.FieldOffice</td>
+                                <td> @a.StaffRole</td>
+                                <td> @a.AppCount </td>
+                                <td> @a.AllAppCount </td>
+                                <td> <small> Apps are more than 10 or staff has been deleted or not active. </small> </td>
+                                <td> @a.ActiveStatus</td>
+                                <td> @a.DeletedStatus</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="/Deskes/StaffDeskApps/@generalClass.Encrypt(a.StaffID.ToString())/_desk" class="btn btn-danger btn-sm"> <i class="fas fa-files-o"> </i> View Desk Apps </a>
+                                        <a href="/Deskes/StaffDeskApps/@generalClass.Encrypt(a.StaffID.ToString())/_all" class="btn btn-primary btn-sm"> <i class="fas fa-archive"> </i> View All Apps </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td> @a.StaffName</td>
+                                <td> @a.StaffEmail</td>
+                                <td> @a.FieldOffice</td>
+                                <td> @a.StaffRole</td>
+                                <td> @a.AppCount</td>
+                                <td> @a.AllAppCount</td>
+                                <td> <small> </small> </td>
+                                <td> @a.ActiveStatus</td>
+                                <td> @a.DeletedStatus</td>
+                                <td> 
+                                    <div class="btn-group">
+                                        <a href="/Deskes/StaffDeskApps/@generalClass.Encrypt(a.StaffID.ToString())/_desk" class="btn btn-danger btn-sm"> <i class="fas fa-files-o"> </i> View Desk Apps </a>
+                                        <a href="/Deskes/StaffDeskApps/@generalClass.Encrypt(a.StaffID.ToString())/_all" class="btn btn-primary btn-sm"> <i class="fas fa-archive"> </i> View All Apps </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+                    }
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+

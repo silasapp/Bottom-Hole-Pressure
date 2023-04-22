@@ -1,0 +1,78 @@
+﻿@using BHP.Helpers
+@model IEnumerable<BHP.Models.NominatedList>
+
+@{
+    ViewData["Title"] = "Submit Report Finidings";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<br />
+
+
+<div class="card-black">
+
+    <br />
+
+    <table class="table table-bordered table-hover" id="MyFacilityTable" style="font-size:small">
+        <thead>
+            <tr>
+                <th> Company Name</th>
+                <th> Ref No.</th>
+                <th> Details </th>
+                <th> Staff Name </th>
+                <th> Has Submitted Report </th>
+                <th> Created At </th>
+                <th> Action </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in Model)
+            {
+                var status = a.hasSubmitted == true ? "YES" : "NO";
+
+                var nominationid = generalClass.Encrypt(a.NominationID.ToString());
+                var appid = generalClass.Encrypt(a.RequestId.ToString());
+                var permit = generalClass.Encrypt(a.PermitId.ToString());
+
+
+                <tr>
+                    <td> <b>@a.CompanyName</b></td>
+                    <td><b class="text-primary">@a.AppRef</b></td>
+                    <td> BHP report carried out by @a.StaffName for @a.Duration</td>
+                    <td> @a.StaffName</td>
+                    <td> @status</td>
+                    <td> @a.CreatedAt.ToString("MMMM dd, yyyy") </td>
+                    <td>
+                        <div class="btn-group" role="group">
+
+                            <a class="btn btn-primary btn-sm" href="/Applications/Apps/@appid" target="_blank"> <i class="fa fa-file"> </i> View App </a>
+
+                            @if (a.hasSubmitted == false)
+                            {
+                                <a class="btn btn-warning btn-sm" href="/NominationRequest/AddReport/@nominationid" target="_blank"> <i class="fa fa-file"> </i> Add Report </a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-dark btn-sm" href="/NominationRequest/EditNominationReport/@nominationid" target="_blank"> <i class="fa fa-file"> </i> Edit Report </a>
+                            }
+
+                            @if (a.PermitId != null)
+                            {
+                                <a class="btn btn-facebook btn-sm" href="/Permits/ViewPermit/@appid/_view" target="_blank"> <i class="ti-files"> </i> View Letter </a>
+                            }
+                        </div>
+                    </td>
+                </tr>
+                @*}*@
+
+            }
+
+        </tbody>
+    </table>
+
+
+</div>
+

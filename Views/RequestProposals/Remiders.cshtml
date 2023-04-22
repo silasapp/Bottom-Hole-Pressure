@@ -1,0 +1,59 @@
+﻿@model IEnumerable<BHP.Models.ReminderModel>
+
+@using BHP.Helpers;
+
+@{
+    ViewData["Title"] = ViewData["RemiderTitle"];
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+}
+
+<h1>@ViewData["Title"].ToString()</h1>
+
+<br />
+
+<div class="table-responsive" id="">
+
+    <div id="">
+        <table class="table table-bordered table-hover " id="MyFacilityTable" style="">
+
+            <thead>
+                <tr>
+                    <th> RefNo</th>
+                    <th> Proposal Year </th>
+                    <th> Subject </th>
+                    <th> Content </th>
+                    <th> Email Sent </th>
+                    <th> Sent At </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var m in Model)
+                {
+                    <tr>
+
+                        <td><b class="text-primary">@m.RefNo</b></td>
+                        <td><b class="text-danger">@m.Year</b></td>
+                        <td><small><b>@m.Subject</b></small></td>
+                        <td><small class="text-dark">@m.Content</small></td>
+
+                        <td>
+
+                            @{
+                                var button = m.IsSent == true ? "btn btn-sm btn-warning" : "btn btn-sm btn-danger";
+                                var sent = m.IsSent == true ? "Sent" : "Not Sent";
+                            }
+
+                            <button class="@button">@sent</button>
+                        </td>
+                        <td>@m.SentAt.ToString()</td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

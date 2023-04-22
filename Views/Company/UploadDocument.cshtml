@@ -1,0 +1,384 @@
+﻿@using BHP.Helpers;
+@model IEnumerable<BHP.Models.BothDocuments>;
+
+
+@{
+    ViewData["Title"] = "Upload Document";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+
+
+
+<div class="" id="divDocumentUpload">
+
+    <div class="row" id="BackImage">
+        <br />
+        <h3 class="DashCompanyName"> @ViewData["Title"] </h3>
+        <hr />
+    </div>
+
+    <br />
+
+    <div class="card-title text-right">
+        <h5><span> Ref. NO : <b class="text-danger">@ViewData["AppReference"]</b> </span> </h5>
+        <input type="text" hidden id="txtAppID" name="txtAppID" value="@generalClass.Encrypt(ViewData["RequestID"].ToString())" />
+        <input type="text" hidden id="txtCompanyElpsID" name="txtCompanyElpsID" value="@ViewData["CompanyElpsID"]" />
+        <input type="text" hidden id="txtURL" name="txtURL" value="@ElpsServices._elpsBaseUrl" />
+        <input type="text" hidden id="txtHash" name="txtHash" value="@ElpsServices.appHash" />
+
+        <br />
+
+        <div class="text-left">
+
+            <ul style="font-size:smaller; line-height:30px" class="">
+                <li>
+                    1) .Please note. All documents listed below are required and must be uploaded.
+                </li>
+                <li>
+                    2). The MAX file size allowed is 4MB per document. Any file greated than this will not be uploaded.
+                </li>
+                <li>
+                    3). Only JPEG, PNG, JPG, and PDF file types are allowed on this platform.
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="card-body">
+
+        <h3 class="text-danger"> Required Documents</h3>
+        <div class="table-responsive">
+            <table class="table table-hover" style="font-size:small" id="docTable">
+                <thead>
+                    <tr style="font-weight:bolder;">
+                        <th> Document Type</th>
+                        <th> Source</th>
+                        <th> Type Name</th>
+                        <th> Avialable </th>
+                        <th> Change </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var bothDoc in Model)
+                    {
+                        foreach (var presentDoc in bothDoc.presentDocuments)
+                        {
+                            var present = presentDoc.Present == true ? "Uploaded" : "Not Uploaded";
+
+                            var file_icon = "";
+                            var font_png_icon = "fa-file-image";
+                            var font_pdf_icon = "fa-file-pdf text-danger";
+
+                            var font_file_icon = "fa-file text-info";
+
+                            var img_link = /*"elpsdemo.dpr.gov.ng" +*/ presentDoc.Source;
+
+                            file_icon = presentDoc.Source.EndsWith(".png") == true ? font_png_icon :
+                                   presentDoc.Source.EndsWith(".PNG") == true ? font_png_icon :
+                                   presentDoc.Source.EndsWith(".jpg") == true ? font_png_icon :
+                                   presentDoc.Source.EndsWith(".JPG") == true ? font_png_icon :
+                                   presentDoc.Source.EndsWith(".jpeg") == true ? font_png_icon :
+                                   presentDoc.Source.EndsWith(".JPEG") == true ? font_png_icon :
+                                   presentDoc.Source.EndsWith(".pdf") == true ? font_pdf_icon :
+                                   presentDoc.Source.EndsWith(".PDF") == true ? font_pdf_icon : font_file_icon;
+
+                            <tr class="" id="docRow_@presentDoc.LocalDocID">
+
+                                <td>
+                                    @presentDoc.DocType<br />Document
+
+                                    <input type="text" hidden name="txtLocalDocID[]" value="@presentDoc.LocalDocID" required />
+                                    <input type="text" hidden name="txtCompDocElpsID[]" id="doc_@presentDoc.LocalDocID" value="@presentDoc.CompElpsDocID" required />
+                                    <input type="text" hidden id="docType_@presentDoc.LocalDocID" value="@presentDoc.DocType" required />
+                                    <input type="text" hidden name="txtDocSource[]" id="docSource_@presentDoc.LocalDocID" value="@presentDoc.Source" required />
+
+                                </td>
+
+                                <td class="text-center">
+                                    <a href="@img_link" target="_blank" style="color:black" title="Click to view document">
+                                        <i class="fa @file_icon fa-5x"></i>
+                                    </a>
+                                    <br />
+                                    <small class="text-info"><b> View Doc </b></small>
+                                    <br />
+
+                                    <button class="btn btn-sm btn-danger" onclick="DeleteDocument(@presentDoc.CompElpsDocID, @presentDoc.LocalDocID, '@presentDoc.DocType')"> <i class="fa fa-trash-o"> </i> Delete Doc </button>
+                                </td>
+
+                                <td style="">
+                                    <b>@presentDoc.TypeName.ToUpper()</b>
+                                   <p></p>
+                                    <div id="Error_@presentDoc.LocalDocID">
+
+                                    </div>
+                                    <div id="progress_@presentDoc.LocalDocID" class="progress" style="height: 20px;">
+                                        <div class="progress-bar progress-bar-primary" role="progressbar"></div>
+                                    </div>
+                                </td>
+
+
+                                <td style="color:black"><b>@present</b></td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" onclick="updateBrowse(@presentDoc.LocalDocID)"> <i class="fa fa-cloud-upload-alt"> </i> Change Doc </button>
+                                    <input type="file" hidden class="updatefile" id="Update_@presentDoc.LocalDocID" onclick="updateFile(this, @presentDoc.LocalDocID);" name="Upload" accept="image/jpg,image/png,image/jpeg,application/pdf" />
+                                </td>
+
+                            </tr>
+                        }
+
+                        foreach (var missingDoc in bothDoc.missingDocuments)
+                        {
+                            var present = missingDoc.Present == true ? "Uploaded" : "Not Uploaded";
+
+                            <tr style="font-weight:bold" id="docRow2_@missingDoc.LocalDocID">
+
+                                <td>
+                                    @missingDoc.DocType Document
+
+                                    <input type="text" hidden value="@missingDoc.LocalDocID" required />
+                                    <input type="text" hidden name="missingCompElpsDocID[]" value="@missingDoc.CompElpsDocID" required />
+                                    <input type="text" hidden id="docType_@missingDoc.LocalDocID" value="@missingDoc.DocType" required />
+                                    <input type="text" hidden id="docTypeID_@missingDoc.LocalDocID" value="@missingDoc.DocTypeID" required />
+                                </td>
+
+                                <td class="text-center"><i class="fa fa-exclamation-triangle fa-3x text-warning"></i></td>
+
+                                <td style="font-size:small">
+                                    @missingDoc.TypeName
+                                    <div id="Error2_@missingDoc.LocalDocID"> </div>
+                                    <div id="progress2_@missingDoc.LocalDocID" class="progress" style="height: 20px;">
+                                        <div class="progress-bar progress-bar-primary" role="progressbar"></div>
+                                    </div>
+                                </td>
+                                <td class="text-danger">@present</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm m-b-10 m-l-5" onclick="OpenUploadBrowse(@missingDoc.LocalDocID)"> <i class="fa fa-cloud-upload-alt"> </i> Upload Doc </button>
+                                    <input type="file" hidden class="uploadfile" id="Upload_@missingDoc.LocalDocID" onclick="uploadFile(this, @missingDoc.LocalDocID);" name="Upload" accept="image/jpg,image/png,image/jpeg,application/pdf" />
+                                </td>
+
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+   <br /> <hr /><br />
+
+
+    <div class="text-center">
+        <input type="button" class="btn btn-success" id="btnSubmitDocuments" value="Upload Documents" />
+    </div>
+
+    <br />
+
+    <div id="divUploadDocInfo"> </div>
+
+</div>
+
+
+<script>
+
+    function updateFile(fileInput, fileID) {
+
+        $("#Error_" + fileID).html("");
+        var documentID = $("#doc_" + fileID).val();
+        var docType = $("#docType_" + fileID).val();
+
+        var txtUrl = $("#txtURL").val();
+
+        uploadLocation = '';
+
+        if (docType === "Facility") {
+            var uploadLocation = txtUrl + 'api/FacilityDocument/UpdateFile/' + documentID + '/@ViewData["FacilityElpsID"]' + '?docid=' + documentID;
+        }
+        else {
+
+            var uploadLocation = txtUrl + 'api/CompanyDocument/UpdateFile/' + documentID + '/@ViewData["CompanyElpsID"]' + '/' + docType.toLowerCase() + '?docid=' + documentID;
+        }
+
+        $(".updatefile").fileupload({
+            dataType: 'json',
+            url: uploadLocation,
+            done: function (e, data) {
+                $("#docRow_" + fileID).removeClass("Uploadloader");
+                $("#Update_" + fileID).val('');
+                //DeleteOldDocument(documentID, fileID); // deleteng old document
+                $("#docTable").load(location.href + " #docTable");
+
+                $("#Error_" + fileID).html("<b style='color:blue'> Changing... Please wait.</b>");
+
+                $("#Error_" + fileID).html("<b style='color:green'> Successfully Updated...Please wait </b>");
+
+            },
+            fail: function (e, data) {
+                $.each(data.messages, function (index, error) {
+                    if (error.toLowerCase().indexOf('bytes exceed file size' > 0)) {
+                        $("#Error_" + fileID).html("");
+                        $("#Error_" + fileID).html("<span class='text-danger'> Upload file error: Max. File size (4MB) Exceeded OR Invalid file type was selected (only pdf, jpg, jpeg or png) </span>");
+                        $("#Update_" + fileID).val('');
+                    }
+                    else {
+                        $("#Error_" + fileID).html("");
+                        $("#Error_" + fileID).html("<span class='text-danger'> " + error + " </span>");
+                        $("#Update_" + fileID).val('');
+                    }
+                });
+                $("#docRow_" + fileID).removeClass("Uploadloader");
+
+                $("#docRow_" + fileID).removeClass("Uploadloader");
+                $("#Update_" + fileID).val('');
+                var progBox = '#progress_' + fileID + ' .progress-bar';
+
+                $(progBox).css(
+                    'width',
+                    0 + '%'
+                ).text("");
+            },
+            progressall: function (e, data) {
+
+                $("#docRow_" + fileID).addClass("Uploadloader");
+
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+
+                var progBox = '#progress_' + fileID + ' .progress-bar';
+
+                $(progBox).css(
+                    'width',
+                    progress + '%'
+                ).text(progress + '%');
+            }
+
+        });
+    }
+
+
+
+
+    function uploadFile(fileInput, fileID) {
+
+        var txtUrl = $("#txtURL").val();
+        var txtHash = $("#txtHash").val();
+
+        $("#Error2_" + fileID).html("");
+        var docTypeID = $("#docTypeID_" + fileID).val().trim();
+        var docType = $("#docType_" + fileID).val().trim();
+        var uploadLocation = '';
+
+        if (docType === "Facility") {
+            uploadLocation = txtUrl + 'api/Facility/UploadFile/' + docTypeID + '/@ViewData["CompanyElpsID"]' + '/@ViewData["FacilityElpsID"]' + '/@ElpsServices._elpsAppEmail/' + txtHash + '?docName=&uniqueid=';
+        }
+        else {
+            uploadLocation = txtUrl + 'api/UploadCompanyDoc/' + docTypeID + '/@ViewData["CompanyElpsID"]' + '/@ElpsServices._elpsAppEmail/' + txtHash + '?docName=&uniqueid=';
+        }
+
+
+        $(".uploadfile").fileupload({
+            dataType: 'json',
+            url: uploadLocation,
+            done: function (e, data) {
+
+                $("#Error2_" + fileID).html("<b style='color:blue'> Uploading... Please wait.</b>");
+                $("#Upload_" + fileID).val('');
+                $("#Error2_" + fileID).html("<b style='color:green'> Successfully uploaded...Please wait </b>");
+                $("#docTable").load(location.href + " #docTable");
+            },
+            fail: function (e, data) {
+                $.each(data.messages, function (index, error) {
+                    if (error.toLowerCase().indexOf('bytes exceed file size' > 0)) {
+                        $("#Error2_" + fileID).html("");
+                        $("#Error2_" + fileID).html("<span class='text-danger'> Upload file error: Max. File size (4MB) Exceeded OR Invalid file type was selected (only pdf, jpg, jpeg or png) </span>");
+                        $("#Upload_" + fileID).val('');
+                    }
+                    else {
+                        $("#Error2_" + fileID).html("");
+                        $("#Error2_" + fileID).html("<span class='text-danger'> " + error + " </span>");
+                        $("#Upload_" + fileID).val('');
+                    }
+                });
+                $("#docRow2_" + fileID).removeClass("Uploadloader");
+
+                $("#docRow2_" + fileID).removeClass("Uploadloader");
+                $("#Upload_" + fileID).val('');
+                var progBox = '#progress2_' + fileID + ' .progress-bar';
+
+                $(progBox).css(
+                    'width',
+                    0 + '%'
+                ).text("");
+            },
+            progressall: function (e, data) {
+
+                $("#docRow2_" + fileID).addClass("Uploadloader");
+
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+
+                var progBox = '#progress2_' + fileID + ' .progress-bar';
+
+                $(progBox).css(
+                    'width',
+                    progress + '%'
+                ).text(progress + '%');
+            }
+
+        });
+
+    }
+
+
+
+
+
+    function updateBrowse(id) {
+        $("#Update_" + id).click();
+    }
+
+    function OpenUploadBrowse(id) {
+        $("#Upload_" + id).click();
+    }
+
+
+
+
+
+    /*
+     * Deleteing a document...
+     */
+    function DeleteDocument(id, fileID, DocType) {
+
+        var msg = confirm("Are you sure you want to delete this document?");
+
+        if (msg === true) {
+
+            $.post("/Helpers/DeleteCompanyDocument", { "CompElpsDocID": id, "DocType": DocType }, function (response) {
+                if (response.trim() === "Network Error") {
+                    $("#Error_" + fileID).html("<span class='text-danger'> No Network. Please check your network. </span>");
+                }
+                else {
+
+                    if (response.trim() === "Document Deleted") {
+                        $("#Error_" + fileID).html("<b style='color:green'> Document deleted successfully... Please wait </b>");
+                        $("#docTable").load(location.href + " #docTable");
+                    }
+                    else {
+                        $("#Error_" + fileID).html("<span class='text-danger'> Error " + response + " </span>");
+                    }
+                }
+            });
+        }
+    }
+
+
+
+
+</script>

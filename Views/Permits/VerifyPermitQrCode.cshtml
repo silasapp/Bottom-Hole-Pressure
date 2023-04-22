@@ -1,0 +1,64 @@
+﻿@using BHP.Helpers;
+@model IEnumerable<BHP.Models.PermitModel>;
+
+@{
+    ViewData["Title"] = "Verify Permit QR Code";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<body>
+
+
+    <br />
+
+
+    <div class="container">
+
+        <div style="max-width:850px; border: 1px solid #ededed; padding:20px" class="text-left">
+
+            <div class="alert-info" style="padding:20px">
+
+                <h5 class="text-success"><b>@Model.FirstOrDefault().PermitNO Verified</b></h5>
+
+                <hr />
+
+                <div>
+                    <p><b>Type : </b>  APPLICATION TO CONDUCT BOTTOM HOLE PRESSURE (BHP) SURVEY </p>
+
+                    <hr />
+
+                    <p><b>Company Identification Code : </b> @Model.FirstOrDefault().CompanyCode</p>
+                    <p><b>Company Details : </b> @Model.FirstOrDefault().MyCompanyDetails</p>
+                    <p><b>Ref Number : </b> @Model.FirstOrDefault().RefNo</p>
+                    <p><b>Generated Ref : </b> @Model.FirstOrDefault().GeneratedRef</p>
+                    <p><b>Proposal Year : </b> @Model.FirstOrDefault().Year</p>
+
+                    <hr />
+
+                    <p><b>Permit Number : </b> @Model.FirstOrDefault().PermitNO</p>
+                    <p><b>Status : </b> @Model.FirstOrDefault().Status</p>
+                    <p><b>Issued Date : </b> @Model.FirstOrDefault().IssuedDate</p>
+                    <p><b>Expiry Date : </b> @Model.FirstOrDefault().ExpiaryDate</p>
+                    <p><b>Applied Date : </b> @Model.FirstOrDefault().DateApplied.ToString()</p>
+
+                    <hr />
+
+                    <p><b>RRR : </b> @Model.FirstOrDefault().RRR</p>
+                    <p><b>Total Amount : </b> @Model.FirstOrDefault().TotalAmount</p>
+                    <p><b>Payment Description : </b> @Model.FirstOrDefault().PayDescriiption</p>
+
+                    <hr />
+
+                    <p><b> Total Well : </b> @Model.FirstOrDefault().TotalWell Total Well</p>
+                    <p><b> Total Reservior : </b> @Model.FirstOrDefault().TotalReservior Total Reservior</p>
+                    <p><b> Total Field : </b> @Model.FirstOrDefault().TotalField Total Field</p>
+                   
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</body>s

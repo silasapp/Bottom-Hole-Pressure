@@ -1,0 +1,100 @@
+﻿@using BHP.Helpers
+@model IEnumerable<BHP.Models.HistoryInformation>
+
+@{
+     ViewData["Title"] = "Application History for : " + ViewData["AppRef"];
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+
+<h1>@ViewData["Title"]</h1>
+
+<br />
+
+
+<div class="card-black">
+
+    <h3 class="text-primary"> Application Information </h3>
+    <hr />
+
+    @foreach (var apps in Model)
+    {
+        @foreach (var appDetail in apps.requestApplications)
+        {
+            <div class="alert">
+                <div>
+                    <h5>Reference NO :<b class="text-primary"> @appDetail.RefNo</b></h5>
+                </div>
+                <p></p>
+                <div>
+                    <h5>Company Name : <a class="" href="/Company/FullCompanyProfile/@generalClass.Encrypt(appDetail.CompanyEmail)" target="_blank"> <i class="ti-eye"> </i> @appDetail.CompanyName </a> </h5>
+                </div>
+                <p></p>
+                <div>
+                    <h5>Company Address : @appDetail.CompanyAddress </h5>
+                </div>
+                <p></p>
+                <div>
+                    <h5>Email : @appDetail.CompanyEmail</h5>
+                </div>
+                <p></p>
+                <div>
+                    <h5>Proposed Year : @appDetail.Year</h5>
+                </div>
+                <p></p>
+                <div>
+                    <h5>Application : @appDetail.Status </h5>
+                </div>
+                <p></p>
+                <div>
+                    <h5>Date Applied : @appDetail.DateApplied </h5>
+                </div>
+
+            </div>
+        }
+
+
+        <hr />
+        <h3 class="text-info"> Application Histories</h3>
+
+        <hr />
+
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th> Status </th>
+                        <th> Action From </th>
+                        <th> Comment </th>
+                        <th class="text-left"> Action To </th>
+                        <th> Date Processed</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var his in apps.histories)
+                    {
+                        var status = his.Status == "Rejected" ? "btn-danger" :
+                                    his.Status == "In-Reject" ? "btn-danger" :
+
+                                    his.Status == "Moved" ? "btn-primary" :
+
+                                    his.Status == "Recommended" ? "btn-warning" :
+                                    his.Status == "Approved" ? "btn-success" :
+
+                                    his.Status == "Final Approval" ? "btn-success" : "btn-dark";
+                    <tr>
+                        <td> <button class="btn @status btn-sm"> @his.Status </button> </td>
+                        <td style="font-size:smaller">@his.ActionFrom</td>
+                        <td> @his.Comment </td>
+                        <td style="font-size:smaller"> @his.ActionTo </td>
+                        <td> @his.HistoryDate </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+</div>

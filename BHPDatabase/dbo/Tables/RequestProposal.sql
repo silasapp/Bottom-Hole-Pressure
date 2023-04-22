@@ -1,0 +1,27 @@
+﻿CREATE TABLE [dbo].[RequestProposal] (
+    [RequestID]          INT            IDENTITY (1, 1) NOT NULL,
+    [CompanyID]          INT            NOT NULL,
+    [CreatedAt]          DATETIME       NOT NULL,
+    [RequestRefNo]       VARCHAR (50)   NOT NULL,
+    [EmailSent]          BIT            NOT NULL,
+    [UpdatedAt]          DATETIME       NULL,
+    [DeletedBy]          INT            NULL,
+    [DeletedStatus]      BIT            NULL,
+    [DeletedAt]          DATETIME       NULL,
+    [Comment]            VARCHAR (1000) NOT NULL,
+    [DurationID]         INT            NOT NULL,
+    [hasAcknowledge]     BIT            NULL,
+    [Status]             VARCHAR (25)   NULL,
+    [isSubmitted]        BIT            NULL,
+    [DeskID]             INT            NULL,
+    [CurrentDeskID]      INT            NULL,
+    [DateApplied]        DATETIME       NULL,
+    [AcknowledgeAt]      DATETIME       NULL,
+    [RequestSequence]    INT            NULL,
+    [GeneratedNumber]    VARCHAR (50)   NULL,
+    [IsProposalApproved] BIT            NULL,
+    [IsReportSubmitted]  BIT            NULL,
+    [IsReportApproved]   BIT            NULL,
+    PRIMARY KEY CLUSTERED ([RequestID] ASC)
+);
+

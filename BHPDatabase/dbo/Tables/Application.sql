@@ -1,0 +1,26 @@
+﻿CREATE TABLE [dbo].[Application] (
+    [AppID]                  INT             IDENTITY (1, 1) NOT NULL,
+    [RequestID]              INT             NOT NULL,
+    [Qrt]                    VARCHAR (10)    NOT NULL,
+    [Fields]                 VARCHAR (20)    NOT NULL,
+    [Reservoir]              VARCHAR (20)    NOT NULL,
+    [InitialRPressure]       DECIMAL (10, 2) NOT NULL,
+    [RBubblePointPressure]   DECIMAL (10, 2) NOT NULL,
+    [WellName]               VARCHAR (20)    NOT NULL,
+    [LastSurveyDate]         DATETIME        NOT NULL,
+    [MeasuredRPressure]      DECIMAL (10, 2) NOT NULL,
+    [SurveyProposedDate]     DATETIME        NULL,
+    [SurveyType]             VARCHAR (5)     NOT NULL,
+    [TimeShut]               VARCHAR (10)    NOT NULL,
+    [UsedInstrument]         VARCHAR (50)    NOT NULL,
+    [OperaionWellCost]       DECIMAL (10, 2) NOT NULL,
+    [ReservoirCreatedAt]     DATETIME        NOT NULL,
+    [CreatedAt]              DATETIME        NOT NULL,
+    [UpdatedAt]              DATETIME        NULL,
+    [DeletedAt]              DATETIME        NULL,
+    [DeletedStatus]          BIT             NULL,
+    [DeletedBy]              INT             NULL,
+    [PreviousYearMeasuredRP] DECIMAL (10, 2) NULL,
+    CONSTRAINT [PK__Applicat__8E2CF7D926C5B8CD] PRIMARY KEY CLUSTERED ([AppID] ASC)
+);
+

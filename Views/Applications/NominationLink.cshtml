@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewData["Title"] = "Nomination Link";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="container">
+
+        <br /><br /><br />
+        <h2>Respond to nomination</h2>
+        <br />
+        <hr />
+
+        <div>
+            <p>Application Ref : <b class="text-danger">@ViewData["RefNo"]</b></p>
+            <p>Company Name : <b class="text-primary">@ViewData["CompanyName"]</b></p>
+            <p>Staff Name : <b>@ViewData["StaffName"]</b></p>
+            <br />
+            <b class="text-danger">You have been nominated to participate in the BHP exercise for the above company's application, kindly provide your availability response below</b>
+        </div>
+
+        <br />
+
+        <div>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="ConfirmPassword">Comment Here</label>
+                <div class="col-sm-12">
+                    <textarea id="txtNominationComment" class="btn-block" style="max-width:100%" rows="5" cols="68" placeholder="Some comment here... state your availability here...Max(200)"></textarea>
+                </div>
+            </div>
+          
+        </div>
+
+
+        <div style="padding-top:20px" class="text-center col-sm-12">
+            
+            <button class="btn btn-success" onclick="NominationAction('@ViewData["NominationID"]','Accept')">Accept Nomination</button>
+            <button class="btn btn-danger" onclick="NominationAction('@ViewData["NominationID"]','Reject')">Reject Nomination</button>
+        </div>
+
+    </div>
+
+
+<script>
+
+    function NominationAction(id, option) {
+
+        if ($("#txtNominationComment").val() === "") {
+            alert("Please enter your comment.");
+        } else {
+
+            var mg = confirm("Are you sure you want to " + option + " this nomination");
+
+            if (mg == true) {
+
+                $.post("/Applications/NominationAction",
+                    {
+                        "id": id,
+                        "option": option,
+                        "comment": $("#txtNominationComment").val()
+                    },
+                    function (response) {
+                        if ($.trim(response) === "Done") {
+                            alert("Nomination has been " + option + "ed successfully.");
+                            window.location.href = window.location.origin;
+                        }
+                        else {
+                            alert(response);
+                        }
+                    });
+            }
+        }
+    }
+</script>

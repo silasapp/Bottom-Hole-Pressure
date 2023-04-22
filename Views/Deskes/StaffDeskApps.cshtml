@@ -1,0 +1,143 @@
+﻿
+@using BHP.Helpers
+@model IEnumerable<BHP.Models.MyApps>
+@using Microsoft.AspNetCore.Http;
+@using BHP.Controllers.Authentication;
+
+@{
+    ViewData["Title"] = ViewData["StaffDeskDetails"].ToString().ToLower();
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+
+<h1>@ViewData["Title"].ToString()</h1>
+
+<br />
+
+<div class="card-black">
+
+    <div class="card-title">
+        <h4>  @ViewData["StaffDeskDetails"].ToString() </h4>
+
+        @if (generalClass.Decrypt(Context.Session.GetString(AuthController.sessionRoleName)) == GeneralClass.ADMIN || generalClass.Decrypt(Context.Session.GetString(AuthController.sessionRoleName)) == GeneralClass.SUPER_ADMIN || generalClass.Decrypt(Context.Session.GetString(AuthController.sessionRoleName)) == GeneralClass.ICT_ADMIN || generalClass.Decrypt(Context.Session.GetString(AuthController.sessionRoleName)) == GeneralClass.SUPPORT)
+        {
+            <button type="button" id="btnStaffRerouteApps" class="btn btn-info pull-right" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#">
+                Click to distribute @ViewData["StaffDeskDetails"].ToString() to staff in the same role
+            </button>
+
+            <button type="button" hidden id="btnGetStaffs" class="btn btn-primary pull-right" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#InsPushAppModal">
+                Click
+            </button>
+
+            <input value="@generalClass.Encrypt(ViewData["OriginalStaffID"].ToString())" type="text" hidden id="txtOriginalStaffID" />
+        }
+    </div>
+
+    <table class="table table-bordered table-hover" id="MyDeskAppTable" style="font-size:small">
+
+        <thead>
+            <tr>
+                <th>AppID</th>
+                <th>Ref. No</th>
+                <th>Company Name</th>
+                <th>Company Email</th>
+                <th>Company Address</th>
+                <th>Proposal Year</th>
+                <th>Status</th>
+                <th>Staff </th>
+                <th>Has Worked</th>
+                <th>Date Applied</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @if (Model.Any())
+            {
+                foreach (var a in Model)
+                {
+
+                    var app_id = generalClass.Encrypt(a.AppID.ToString());
+
+                    var hasWorked = a.HasWorked == true ? "YES" : "NO";
+
+                    var companyemail = generalClass.Encrypt(a.CompanyEmail.ToString());
+
+                    
+
+                    <tr>
+                        <td>  @a.AppID </td>
+                        <td> <b> @a.RefNo</b> </td>
+                        <td>  <a class="text-primary" href="/Company/FullCompanyProfile/@companyemail" target="_blank"><b>  @a.CompanyName </b></a> </td>
+                        <td>  @a.CompanyEmail</td>
+                        <td>  @a.CompanyAddress</td>
+                        <td>  @a.Year </td>
+                        <td>  <b>@a.Status</b> </td>
+                        <td>  @a.Staff </td>
+                        <td>  <b>@hasWorked</b> </td>
+                        <td>  @a.DateApplied </td>
+                        <td> <a href="/Applications/Apps/@app_id" target="_blank" class="btn btn-primary btn-sm"> View App </a></td>
+                    </tr>
+                }
+            }
+        </tbody>
+
+    </table>
+
+</div>
+
+
+
+<input type="text" id="Insshowpush" hidden />
+
+
+<div class="modal" id="InsPushAppModal">
+
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card-black">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+
+                <h4 class="modal-title">Select one staff to re-route application to </h4>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="btn btn-danger btn-sm">Close</span>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <div class="text-center"> <b class="text-primary"> Showing staff in the same role with the previously selected staff</b></div>
+
+                <br />
+
+                <table class="table table-bordered table-hover" style="" id="TableDistributeApps">
+                    <thead>
+                        <tr>
+                            <th>LastName</th>
+                            <th>FirstName</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+                <div id="InsAppDropInfo" class="text-danger">
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

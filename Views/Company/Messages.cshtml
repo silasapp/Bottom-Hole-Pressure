@@ -1,0 +1,93 @@
+﻿
+@using BHP.Helpers;
+@model IEnumerable<BHP.Models.DB.Messages>
+
+@{
+    ViewData["Title"] = "All Messages";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+    <div>
+
+        <div class="row" id="BackImage">
+
+            <br />
+            <h3 class="DashCompanyName">@ViewData["Title"]</h3>
+            <hr />
+        </div>
+
+        <br />
+
+
+        <table class="table table-bordered table-hover" id="MyFacilityTable">
+            <thead>
+                <tr>
+                    <th> Seen </th>
+                    <th> Message Subject</th>
+                    <th> Date </th>
+                    <th> Action </th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var m in Model)
+                {
+                    var comp_id = generalClass.Encrypt(m.CompanyId.ToString());
+                    var msg_id = generalClass.Encrypt(m.MessageId.ToString());
+
+                    @if (m.Seen == true)
+                    {
+                        <tr>
+                            <td>
+                                @if (m.Seen == true)
+                                {
+                                    <i class="fas fa-envelope-open text-dark"></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-envelope text-success"></i>
+                                }
+                            </td>
+
+                            <td>
+                                <span> @m.Subject </span>
+                            </td>
+
+                            <td> @m.CreatedAt.ToString()</td>
+
+                            <td> <a class="btn btn-primary btn-sm" target="_blank" href="/Company/Message/@comp_id/@msg_id"> <i class="fa fa-eye"> </i> View Message </a></td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr style="background:#c0efd5">
+                            <td>
+                                @if (m.Seen == true)
+                                {
+                                    <i class="fas fa-envelope-open text-dark"></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-envelope text-success"></i>
+                                }
+                            </td>
+
+                            <td>
+                                <span> @m.Subject </span>
+                            </td>
+
+                            <td> @m.CreatedAt.ToString()</td>
+
+                            <td> <a class="btn btn-primary btn-sm" target="_blank" href="/Company/Message/@comp_id/@msg_id"> <i class="fa fa-eye"> </i> View Message </a></td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+

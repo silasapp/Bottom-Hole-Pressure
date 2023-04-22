@@ -1,0 +1,212 @@
+﻿@using BHP.Helpers;
+@using BHP.Controllers.Authentication;
+@using Microsoft.AspNetCore.Http;
+@{
+    GeneralClass generalClass = new GeneralClass();
+}
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <!---AM Charts -->
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/moonrisekingdom.js"></script>
+    <script src="https://www.amcharts.com/lib/4/plugins/forceDirected.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/spiritedaway.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/kelly.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/frozen.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/dataviz.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+    <link rel="stylesheet" href="~/css/dataTables.checkboxes.css" />
+
+
+    <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+
+
+    <link href="~/packagess/core/main.css" rel='stylesheet' />
+    <link href="~/packagess/Tipped/tipped.css" rel='stylesheet' />
+
+    <link href='~/packagess/bootstrap/main.css' rel='stylesheet' />
+    <link href='~/packagess/timegrid/main.css' rel='stylesheet' />
+    <link href='~/packagess/daygrid/main.css' rel='stylesheet' />
+    <link href='~/packagess/list/main.css' rel='stylesheet' />
+
+    <script src='~/packagess/core/main.js'></script>
+    <script src='~/packagess/interaction/main.js'></script>
+    <script src='~/packagess/bootstrap/main.js'></script>
+    <script src='~/packagess/daygrid/main.js'></script>
+    <script src='~/packagess/timegrid/main.js'></script>
+    <script src='~/packagess/list/main.js'></script>
+    <script src='~/packagess/js/theme-chooser.js'></script>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" />
+
+
+
+    @*<!-- Font Awesome -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+            <!-- qTip -->
+
+
+        <link href="https://cdn.jsdelivr.net/npm/multiple-select-js@latest/dist/css/multiple-select.css" rel="stylesheet">
+
+
+            <!-- Full Calendar -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.js" />
+            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.1/fullcalendar.print.css" media="print" />*@
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="~/images/nuprc.png">
+    <title>BHP | @ViewData["Title"] </title>
+
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/ela/css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+
+    <link href="~/ela/css/lib/calendar2/semantic.ui.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/semantic ui/dist/semantic.css" />
+
+
+    <link href="~/ela/css/lib/calendar2/pignose.calendar.min.css" rel="stylesheet">
+    <link href="~/ela/css/lib/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/ela/css/lib/owl.theme.default.min.css" rel="stylesheet" />
+    <link href="~/ela/css/helper.css" rel="stylesheet">
+    <link href="~/ela/css/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/dataTables.bootstrap.css" />
+    <link rel="stylesheet" href="~/css/dataTables.min.css" />
+    <link rel="stylesheet" href="~/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.semanticui.min.css" />
+
+
+    @if (generalClass.Decrypt(Context.Session.GetString(AuthController.sessionTheme)) == "Dark")
+    {
+        <link rel="stylesheet" href="~/css/BlackTheme.css" />
+    }
+    else
+    {
+        <link rel="stylesheet" href="~/css/LightTheme.css" />
+    }
+
+
+
+    <link rel="stylesheet" href="~/css/jquery.datetimepicker.min.css" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/solid.css" integrity="sha384-+0VIRx+yz1WBcCTXBkVQYIBVNEFH1eP6Zknm16roZCyeNg2maWEpk/l/KsyFKs7G" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/regular.css" integrity="sha384-aubIA90W7NxJ+Ly4QHAqo1JBSwQ0jejV75iHhj59KRwVjLVHjuhS3LkDAoa/ltO4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/brands.css" integrity="sha384-1KLgFVb/gHrlDGLFPgMbeedi6tQBLcWvyNUN+YKXbD7ZFbjX6BLpMDf0PJ32XJfX" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/fontawesome.css" integrity="sha384-jLuaxTTBR42U2qJ/pm4JRouHkEDHkVqH0T1nyQXn1mZ7Snycpf6Rl25VBNthU4z0" crossorigin="anonymous">
+
+    <link href="~/ela/css/lib/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="~/css/notify.css" rel="stylesheet">
+
+
+
+
+</head>
+
+<body>
+    <div class="header">
+        <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+            <!-- Logo -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/Staffs/Dashboard">
+                    <!-- Logo icon -->
+                    <b><img src="~/images/nuprc.png" style="height:45px;" alt="homepage" class="dark-logo" /></b>
+                    <!--End Logo icon -->
+                    <!-- Logo text -->
+                    <span><img src="~/images/BHP4.png" style="height:35px;" alt="" class="dark-logo" /></span>
+                </a>
+            </div>
+            <!-- End Logo -->
+            <div class="navbar-collapse">
+                <!-- toggle and nav items -->
+                <ul class="navbar-nav mr-auto mt-md-0">
+                    <!-- This is  -->
+                    <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted  " href="javascript:void(0)"><i class="mdi mdi-menu"></i></a> </li>
+                    <li class="nav-item m-l-10"> <a class="nav-link sidebartoggler hidden-sm-down text-muted  " href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                    <!-- Messages -->
+
+                </ul>
+                <!-- User profile and search -->
+                <ul class="navbar-nav my-lg-0">
+
+                    <!-- Search -->
+
+
+                    <li class="nav-item hidden-sm-down search-box">
+                        <a class="nav-link hidden-sm-down text-muted  " href="javascript:void(0)"><i class="ti-search">  </i> Search </a>
+                        <form class="app-search" action="javascript:void(0)" onsubmit="SearchApp()" method="post" id="FormSearchApplication">
+                            <input type="text" class="form-control" placeholder="Find an application (Reference Number)" id="txtSearchContent"> <a class="srh-btn"><i class="ti-close"></i></a>
+                        </form>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <b class="text-primary"> @generalClass.Decrypt(Context.Session.GetString(AuthController.sessionUserName).ToString()) </b> - <span class="text-warning">@generalClass.Decrypt(Context.Session.GetString(AuthController.sessionRoleName).ToString()) </span> <small>(@generalClass.Decrypt(Context.Session.GetString(AuthController.sessionEmail)))</small>
+                            <img src="~/images/Avarta/Advatar1.png" alt="user" class="profile-pic" />
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right animated zoomIn">
+                            <ul class="dropdown-user">
+                                @*<li><a href="#"><i class="ti-user"></i> Profile</a></li>
+                                    <li><a href="#"><i class="ti-wallet"></i> Balance</a></li>
+                                    <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
+                                    <li><a href="#"><i class="ti-settings"></i> Setting</a></li>*@
+                                @if (generalClass.Decrypt(Context.Session.GetString(AuthController.sessionTheme)) == "Dark")
+                                {
+                                    <li><a href="javascript:void(0)" onclick="UseTheme('@generalClass.Encrypt("Light")')"><i class="fas fa-sun"></i> Use Light Theme</a></li>
+                                }
+                                else
+                                {
+                                    <li><a href="javascript:void(0)" onclick="UseTheme('@generalClass.Encrypt("Dark")')"><i class="far fa-moon"></i> Use Dark Theme</a></li>
+                                }
+                                <li> <a href="/Auth/ChangePassword"> <i class="fa fa-key"></i> Change Password</a></li>
+                                <li><a href="/Auth/Logout"><i class="fa fa-power-off"></i> Logout</a></li>
+
+
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</body>
+</html>
+
+<script>
+
+    function UseTheme(themeName) {
+
+        $.post("/Staffs/UseTheme", { "id": themeName }, function (response) {
+
+            if (response === "Theme Changed") {
+                location.reload(true);
+            }
+            else {
+                alert(response);
+            }
+        });
+    }
+</script>

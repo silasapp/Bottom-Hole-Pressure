@@ -1,0 +1,64 @@
+﻿
+@using BHP.Helpers
+@model IEnumerable<BHP.Models.UserLogins>
+
+@{
+    ViewData["Title"] = ViewData["LoginTitle"];
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+}
+
+    <h1>@ViewData["Title"]</h1>
+
+<br />
+
+<div class="card-black">
+
+    <table class="table table-bordered table-hover " id="MyAppsTable" style="font-size:small">
+
+        <thead>
+            <tr>
+                <th>Staff Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Field Office</th>
+                <th>Host</th>
+                <th>Mac Address</th>
+                <th>Local Ip</th>
+                <th>Remote Ip</th>
+                <th>User Agent</th>
+                <th>Status</th>
+                <th>Login Time</th>
+                <th>Logout Time</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @if (Model.Any())
+            {
+                foreach (var a in Model)
+                {
+                    <tr>
+                        <td>  @a.Name </td>
+                        <td>  @a.Email </td>
+                        <td>  @a.Role </td>
+                        <td>  @a.FieldOffice </td>
+                        <td>  @a.HostName </td>
+                        <td>  @a.MacAddress </td>
+                        <td>  @a.LocalIp </td>
+                        <td>  @a.RemoteIp </td>
+                        <td> <small> @a.UserAgent </small></td>
+                        <td>  @a.Status </td>
+                        <td>  @a.LogInTime.ToLongDateString() </td>
+                        <td>  @a.LogOutTime.ToString() </td>
+
+                    </tr>
+                }
+            }
+        </tbody>
+
+    </table>
+</div>
+
+
+

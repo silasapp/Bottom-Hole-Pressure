@@ -1,0 +1,166 @@
+﻿
+@using BHP.Helpers;
+@model IEnumerable<BHP.Models.SchdulesList>
+
+@{
+    ViewData["Title"] = "My Schedule";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+<div class="">
+
+    <div class="row" id="BackImage">
+
+        <br />
+        <h3 class="DashCompanyName">  @ViewData["Title"] </h3>
+        <hr />
+    </div>
+
+    <br />
+
+    <div>
+
+        <table class="table table-bordered table-hover" id="MyFacilityTable" style="font-size:small">
+            <thead>
+                <tr>
+                    <th> Ref No.</th>
+                    <th> Schedule Type </th>
+                    <th> Schedule Location </th>
+                    <th> Schedule Date </th>
+                    <th> Scheduler's Comment </th>
+                    <th> My Response </th>
+                    <th> My Comment </th>
+                    <th> Action </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var s in Model)
+                {
+                    var cResponse = s.Schedule.CustomerAccept == 1 ? "Accepted" :
+                       s.Schedule.CustomerAccept == 2 ? "Rejected" : "Awaiting";
+
+                    var startDate = DateTime.Parse(s.Schedule.SchduleDate.ToString());
+                    var expDate = startDate;
+
+                    <tr>
+                        <td>
+                            <b> <a target="_blank" href="/Company/ViewApp/@generalClass.Encrypt(s.Request.RequestId.ToString())">@s.Request.RequestRefNo</a></b>
+                        </td>
+                        <td>@s.Schedule.SchduleType</td>
+                        <td>@s.Schedule.SchduleLocation</td>
+                        <td>@s.Schedule.SchduleDate.ToString()</td>
+                        <td><small>@s.Schedule.Comment</small></td>
+                        <td>@cResponse</td>
+                        <td><small>@s.Schedule.CustomerComment</small></td>
+                        <td>
+                            @if (DateTime.Now > expDate)
+                            {
+                                <b class="text-danger"> Schedule Expired </b>
+                            }
+                            else
+                            {
+                                if (s.Schedule.CustomerAccept == null || s.Schedule.CustomerAccept == 0)
+                                {
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm btn-success" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#ModalAcceptSchedule" onclick="CustomerApproveSchedule('@generalClass.Encrypt(s.Schedule.SchduleId.ToString())')"><i class="fas fa-check-circle"> </i> Accept </button>
+                                        <button class="btn btn-sm btn-danger" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#ModalRejectSchedule" onclick="CustomerRejectSchedule('@generalClass.Encrypt(s.Schedule.SchduleId.ToString())')"> <i class="fas fa-times-circle"> </i> Reject </button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <b>@cResponse</b>
+                                }
+                            }
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <input type="text" id="txtScheduleID" hidden />
+    </div>
+
+</div>
+
+
+
+@* Accepting application schedule with comment *@
+<div class="modal" id="ModalAcceptSchedule">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content" id="DivAcceptSchedule">
+            <div class="modal-header">
+                <h4 class="modal-title text-success"> Accept schedule with comment </h4>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="btn btn-dark btn-sm">Close</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="comment">Comment:</label>
+                    <br />
+                    <textarea id="txtAcceptComment" style="max-width:100%; resize:none" rows="5" cols="68" placeholder="Some comment here...Max(100)"></textarea>
+                </div>
+
+                <button class="btn btn-success" id="btnAcceptSchedule"> Accept Schedule </button>
+                <p></p>
+                <div id="ScheduleModalInfo"> </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+@* Rejecting Application schedule *@
+<div class="modal" id="ModalRejectSchedule">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content" id="DivRejectSchedule">
+            <div class="modal-header">
+                <h4 class="modal-title text-danger"> Reject Schedule with comment </h4>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="btn btn-dark btn-sm">Close</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="comment">Comment:</label>
+                    <br />
+                    <textarea id="txtRejectComment" style="max-width:100%; resize:none" rows="5" cols="68" placeholder="Some comment here...Max(100)"></textarea>
+                </div>
+
+                <button class="btn btn-danger" id="btnRejectSchedule"> Reject Schedule </button>
+                <p></p>
+                <div id="ScheduleRejectModalInfo" class="text-danger"> </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function CustomerApproveSchedule(id) { // encrypted schedule id
+
+        $("#txtScheduleID").val(id);
+    }
+
+
+
+
+    function CustomerRejectSchedule(id) {
+
+        $("#txtScheduleID").val(id);
+    }
+</script>
+

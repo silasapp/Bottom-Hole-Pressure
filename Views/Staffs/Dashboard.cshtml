@@ -1,0 +1,236 @@
+﻿
+@using BHP.Helpers;
+
+@using Microsoft.AspNetCore.Http;
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+<div class="">
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card bg-primary-dark p-20">
+                <div class="media widget-ten">
+                    <div class="media-left meida media-middle">
+                        <span><i class="ti-bag f-s-40"></i></span>
+                    </div>
+                    <div class="media-body media-text-right">
+                        <h2 class="color-white" style="font-weight:bold" id="staffDeskCount"> </h2>
+                        <p class="m-b-0" style="font-weight:bold"><a href="/Applications/MyDesk" class="color-white"> My Desk </a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger-dark p-20">
+                <div class="media widget-ten">
+                    <div class="media-left meida media-middle">
+                        <span><i class="ti-file f-s-40"></i></span>
+                    </div>
+                    <div class="media-body media-text-right">
+                        <h2 class="color-white" style="font-weight:bold">@ViewData["ProcessingApps"]</h2>
+                        <p class="m-b-0" style="font-weight:bold">Processing Applications</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info-dark p-20">
+                <div class="media widget-ten">
+                    <div class="media-left meida media-middle">
+                        <span><i class="ti-pie-chart f-s-40"></i></span>
+                    </div>
+                    <div class="media-body media-text-right">
+                        <h2 class="color-white" style="font-weight:bold">@ViewData["TotalApps"]</h2>
+                        <p class="m-b-0" style="font-weight:bold">Total Applications</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success-dark p-20">
+                <div class="media widget-ten">
+                    <div class="media-left meida media-middle">
+                        <span><i class="ti-files f-s-40"></i></span>
+                    </div>
+                    <div class="media-body media-text-right">
+                        <h2 class="color-white" style="font-weight:bold">@ViewData["TotalPermits"]</h2>
+                        <p class="m-b-0" style="font-weight:bold">Total Permits</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    @if (Convert.ToInt32(ViewData["NominationRequest"].ToString()) > 0)
+    {
+        <div class="col-lg-12">
+            <div class="card-black">
+                <div class="card-body">
+                    <b class="text-danger"> You have <span class="text-primary">@Convert.ToInt32(ViewData["NominationRequest"].ToString())</span> nomination request for your response. Kindly go to <a href="/NominationRequest/Requests/_desk"> Nomination Requests </a> and respond to it.</b>
+
+                </div>
+            </div>
+        </div>
+
+        <br />
+    }
+
+    <br />
+
+    <div class="row m-l-0 m-r-0">
+
+
+        <div class="col-sm-8">
+
+            <h1>Quick Links</h1>
+
+            <hr />
+
+            <div>
+                <b>1. Proposals & Durations</b>
+                <br />
+
+                <div class="row">
+
+                    <div class="col-lg-4">
+                        <div class="card-black">
+                            <div class="card-body">
+                                <b>Create Duration</b>
+
+                                @*<div class="" id="AutoGasDasboardGraph" style="width: 100%; height: 500px;">
+
+                                    </div>*@
+
+                                <br /><br />
+
+                                <a href="~/RequestProposals/RequestDuration" target="_blank"><i class="far fa-clock"></i> Create Duration</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-4">
+                        <div class="card-black">
+                            <div class="card-body">
+                                <b>Current Request</b>
+
+                                <br /><br />
+
+                                <a href="~/RequestProposals/Index/" target="_blank"><i class="fas fa-business-time"></i> Current Request</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-4">
+                        <div class="card-black">
+                            <div class="card-body">
+                                <b>All Request</b>
+                                <br /><br />
+
+                                <a href="~/RequestProposals/Index/_all" target="_blank"><i class="fas fa-business-time"></i> All Request</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <hr />
+
+            <div>
+                <b>2. Applicatins & Companines</b>
+                <br />
+
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="card-black">
+                            <div class="card-body">
+                                <b>All Applications</b>
+
+                                <br /><br />
+
+                                <a href="~/Applications/Index" target="_blank"><i class="far fa-clone"> </i> View All Applications</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-6">
+                        <div class="card-black">
+                            <div class="card-body">
+                                <b>All Companies</b>
+
+                                <br /><br />
+
+                                <a href="~/Applications/AllCompanies" target="_blank"><i class="far fa-building"> </i> View All Companies</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <hr />
+
+            <div>
+                <b>3. Permits & Transactions</b>
+                <br />
+
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="card-black">
+                            <div class="card-body">
+                                <b>All Permits</b>
+
+                                <br /><br />
+
+                                <a href="~/Permits/Index/_all" target="_blank"><i class="far fa-copy"> </i> View All Permits</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-6">
+                        <div class="card-black">
+                            <div class="card-body">
+                                <b>All Payments</b>
+
+                                <br /><br />
+
+                                <a href="~/Transactions/Payments/" target="_blank"><i class="fas fa-funnel-dollar"> </i> View All Payments</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card-black">
+                <div class="card-body">
+                    <div class="year-calendar"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>
+

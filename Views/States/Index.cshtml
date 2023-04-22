@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewData["Title"] = "States Configurations";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+}
+
+ <h1>@ViewData["Title"]</h1>
+
+    <br />
+
+    <div class="row">
+
+        <div class="col-sm-4">
+
+            <div class="card-black">
+
+                <div class="card-subtitle">
+                    <i class="book icon text-white"></i>
+                    <span class="content text-white">
+                        Create State
+                    </span>
+                </div>
+
+                <form action="#" id="FormCreateState">
+
+                    <div class="form-group">
+
+                        <select name="txtStateCountry" id="txtStateCountry" class="form-control" required></select>
+
+                        <br />
+
+
+                        <input name="txtStateName" id="txtStateName" class="form-control" placeholder="State Name" required />
+
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Create State" class="btn btn-primary" />
+                    </div>
+
+                    <div id="CreateStateInfo"> </div>
+                </form>
+
+
+            </div>
+
+            <br />
+
+            <div class="card-black">
+
+                <div class="card-subtitle">
+                    <i class="book icon text-white"></i>
+                    <span class="content text-white">
+                        Edit State
+                    </span>
+                </div>
+
+                <form asp-action="Edit" id="FormEditState">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" id="EditStateID" />
+                    <div class="form-group">
+
+                        <select name="txtEditStateCountryName" id="txtEditStateCountryName" class="form-control" placeholder="Country Name ..." required> </select>
+
+                        <br />
+
+
+                        <input name="txtEditStateName" id="txtEditStateName" class="form-control" placeholder="State Name ..." required />
+
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save Edit" class="btn btn-primary" />
+                        <input type="reset" class="btn btn-warning" />
+                    </div>
+                </form>
+
+                <div id="EditStateInfo"> </div>
+            </div>
+
+
+        </div>
+
+        <div class="col-sm-8">
+            <div class="card-black">
+
+                <div class="card-body">
+
+                    <h4 class="card-title"> States </h4>
+                    <h6 class="card-subtitle text-white"> List of all created states </h6>
+
+                    <table id="TableStates" class="table table-hover table-bordered" style="font-size:small">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Country ID
+                                </th>
+                                <th>
+                                    State ID
+                                </th>
+                                <th>
+                                    Country Name
+                                </th>
+                                <th>
+                                    State Name
+                                </th>
+                                <th>
+                                    Created At
+                                </th>
+                                <th>
+                                    Updated At
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>

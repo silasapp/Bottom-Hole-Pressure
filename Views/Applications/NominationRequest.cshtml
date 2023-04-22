@@ -1,0 +1,142 @@
+﻿@model IEnumerable<BHP.Models.StaffNomination>
+
+    @{
+        ViewData["Title"] = "Nomination Request";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <div class="container">
+
+        <br /><br /><br />
+        <h2>Respond to nomination request</h2>
+        <br />
+        <hr />
+
+        <div>
+            <p>Application Ref : <b class="text-danger">@ViewData["RefNo"]</b></p>
+            <p>Company Name : <b class="text-primary">@ViewData["CompanyName"]</b></p>
+            <p>Company Address : <b class="text-primary">@ViewData["CompanyAddress"]</b></p>
+            <p>Stage : <b class="text-primary">@ViewData["Stage"]</b></p>
+            <p>Nomination done : <b class="text-primary">@ViewData["HasDone"]</b></p>
+            <hr />
+            <p><b>Comment :</b> <small class="">@ViewData["Comment"]</small></p>
+            <br />
+            <p>Staff Name : <b class="text-primary">@ViewData["StaffName"]</b></p>
+            <p>Sent At : <b>@ViewData["CreatedAt"]</b></p>
+            <br />
+
+            <b class="text-danger">Please select staff for this normination</b>
+
+            <input type="number" hidden value="@ViewData["RequestId"]" disabled readonly id="txtRequestId" />
+            <input type="number" hidden value="@ViewData["NomId"]" disabled readonly id="txtNomId" />
+
+        </div>
+
+        <br />
+
+        <table class="table table-sm table-bordered table-striped" style="font-size:12px">
+
+            <thead>
+                <tr>
+                    <th>Staff Name</th>
+                    <th>Role</th>
+                    <th>Zonal Office</th>
+                    <th>Field Office</th>
+                    <th>Added</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach(var a in Model.ToList())
+            {
+                <tr>
+                    <td><b>@a.FullName</b></td>
+                    <td>@a.RoleName</td>
+                    <td>@a.ZonalOffice</td>
+                    <td>@a.FieldOffice</td>
+                    <td>
+                        <h5> <span class="badge badge-danger badge-sm" id="action_@a.StaffId"> NO </span> </h5>
+                        <input type="number" hidden value="" disabled readonly id="user_@a.StaffId" name="txtUser[]" />
+                    </td>
+                    <td>
+                        <div class="btn btn-group">
+                            <button class="btn btn-success btn-sm" onclick="AddAction('@a.StaffId')">Add</button>
+                            <button class="btn btn-danger btn-sm" onclick="RemoveAction('@a.StaffId')">Remove</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+            </tbody>
+
+        </table>
+
+        <br />
+
+        <div class="text-center">
+
+            <button class="btn btn-warning btn-lg" onclick="SaveNomination()"><i class=""> </i> Save Nomination</button>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function AddAction(id) {
+
+            $("#action_" + id).removeClass("badge-danger");
+            $("#action_" + id).addClass("badge-success");
+            $("#action_" + id).text("YES");
+            $("#user_" + id).val(id);
+
+        }
+
+
+        function RemoveAction(id) {
+
+            $("#action_" + id).removeClass("badge-success");
+            $("#action_" + id).addClass("badge-danger");
+            $("#action_" + id).text("NO");
+            $("#user_" + id).val("");
+
+        }
+
+
+        function SaveNomination() {
+
+            var msg = confirm("Are you sure you want to save the selected nominated staff?");
+
+            var StaffId = [];
+            var user = document.getElementsByName('txtUser[]');
+
+            for (var j = 0; j < user.length; j++) {
+
+                StaffId.push(user[j].value.trim())
+            }
+
+            if (msg === true) {
+
+                $.post("/Applications/SaveNominatedStaff",
+                    {
+                        "txtNomId": $("#txtNomId").val(),
+                        "RequestId": $("#txtRequestId").val(),
+                        "StaffId": StaffId
+                    },
+                    function (response) {
+                        if ($.trim(response) === "Saved") {
+                            alert("Nomination has been saved successfully.");
+                            window.location.href = window.location.origin;
+                        }
+                        else {
+                            alert(response);
+                        }
+                    });
+            }
+
+        }
+
+    </script>

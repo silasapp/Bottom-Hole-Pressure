@@ -1,0 +1,147 @@
+﻿@model IEnumerable<BHP.Models.RequestModal>
+@using BHP.Helpers;
+
+@{
+    ViewData["Title"] = ViewData["ProposalYear"].ToString();
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+   
+    GeneralClass generalClass = new GeneralClass();
+}
+
+<h1>@ViewData["Title"].ToString()</h1>
+
+<br />
+
+
+<div class="card-black">
+
+
+    <div class="table-responsive" id="RequestDivTable">
+
+        <div class="pull-left">
+            <button class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#ModelCreateProposalRequest"> Request for Proposal </button>
+        </div>
+
+        <br />
+
+        <div id="divProposalRequest">
+            <table class="table table-bordered table-hover " id="MyFacilityTable" style="font-size:small">
+
+                <thead>
+                    <tr>
+                        <th> RefNo</th>
+                        <th> Generated Ref</th>
+                        <th> Company </th>
+                        <th> Email </th>
+                        <th> Start Date </th>
+                        <th> End Date </th>
+                        <th> Proposal Year </th>
+                        <th> Email Sent </th>
+                        <th> CreatedAt </th>
+                        <th> Acknowledge </th>
+                        <th> Acknowledge At </th>
+                        <th> Actions </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+
+                            <td><b>@m.RequestRefNo</b></td>
+                            <td><b class="text-danger">@m.GeneratedRef</b></td>
+                            <td> <a class="" href="/Companies/FullCompanyProfile/@generalClass.Encrypt(m.CompanyEmail)" target="_blank"><b> @m.CompanyName </b>(<small>@m.CompanyAddress</small>)</a></td>
+
+                            <td>@m.CompanyEmail</td>
+                            <td>@m.StartDate</td>
+                            <td>@m.EndDate</td>
+                            <td>@m.ProposalYear</td>
+                            <td>
+
+                                @{
+                                    var button = m.EmailSent == "1" ? "btn btn-sm btn-warning" : "btn btn-sm btn-danger";
+                                    var sent = m.EmailSent == "1" ? "Sent" : "Not Sent";
+                                    var ack = m.Acknowledge == "1" ? "YES" : "NO";
+                                }
+
+                                <button class="@button">@sent</button>
+                            </td>
+                            <td>@m.CreatedAt.ToString()</td>
+                            <td><b>@ack</b></td>
+                            <td>@m.AcknowledgeAt</td>
+                            <td>
+                                <div class="">
+                                    @if (m.EmailSent == "0")
+                                    {
+                                        <button class="btn btn-sm btn-outline-warning waves-effect waves-light" onclick="ResendEmail('@generalClass.Encrypt(m.RequestId.ToString())')"><i class="fa fa-send"> </i> Resend </button>
+                                    }
+                                    <a class="btn btn-xs btn-dark waves-effect waves-light" target="_blank" href="/RequestProposals/Remiders/@generalClass.Encrypt(m.RequestId)"><i class="fa fa-eye"> </i> See Remiders</a>
+                                    <a class="btn btn-xs btn-primary waves-effect waves-light" target="_blank" href="/RequestProposals/ViewLetter/@generalClass.Encrypt(m.RequestId)/_view"><i class="fa fa-eye"> </i> View Letter</a>
+                                    <a class="btn btn-xs btn-danger waves-effect waves-light" target="_blank" href="/RequestProposals/ViewLetter/@generalClass.Encrypt(m.RequestId)/_download"><i class="fa fa-file-download"> </i> Download</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+@* Create Proposal Request *@
+<div class="modal" id="ModelCreateProposalRequest">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content card-black" id="ModelCreateProposalRequestLoadder">
+            <div class="modal-header">
+                <h4 class="modal-title">
+
+                    @{
+                        var year = DateTime.Now.Year + 1;
+                    }
+
+                    Create Proposal Request for @year
+
+                </h4>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="btn btn-danger btn-sm">Close</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <p></p>
+
+                    @{ 
+                        var duration = ViewData["DurationDetails"].ToString();
+                    }
+               
+                    <input type="text" hidden value="@ViewData["DurationID"]" id="txtDurationID"/>
+
+                    <label for="comment">Comment :</label>
+                    <br />
+                    <textarea id="txtProposalComment" style="max-width:100%" rows="5" cols="68" placeholder="Some comment here...Max(1000)"></textarea>
+                </div>
+
+               <br />
+
+                <div class="text-left">
+                    <button class="btn btn-primary waves-effect waves-light" id="btnCreateProposalRequest"> <i class="fa fa-file"></i> Send Proposal Request</button>
+                </div>
+
+                <p></p>
+
+                <div id="ProposalRequestInfo"> </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+﻿@using BHP.Helpers;
+@using BHP.Controllers.Authentication;
+@using Microsoft.AspNetCore.Http;
+@model IEnumerable<BHP.Models.MyPermit>
+
+@{
+    ViewData["Title"] = ViewData["ClassifyPermits"];
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+
+<h1>
+    @ViewData["ClassifyPermits"].ToString()
+</h1>
+
+<br />
+
+<div class="card-black">
+
+    <br />
+
+    <table class="table table-bordered table-hover" id="MyFacilityTable" style="font-size:small">
+        <thead>
+            <tr>
+                <th> Permit NO</th>
+                <th> App. Ref. NO. </th>
+                <th> Company </th>
+                <th> Issue Date </th>
+                <th> Expiry Date </th>
+                <th> Print Status </th>
+                <th> Action </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model.Any())
+            {
+                foreach (var a in Model)
+                {
+                    var status = a.isPrinted == true ? "Printed" : "Not Printed";
+
+                    var permitID = generalClass.Encrypt(a.PermitID.ToString());
+
+
+                    var exDate = DateTime.Parse(a.ExpireDate.ToString());
+
+                    <tr>
+                        <td> <b class="text-primary">@a.PermitNo</b> @*<b class="text-danger">@a.isLegacy</b>*@</td>
+                        <td> <b>@a.RefNo</b></td>
+                        <td> <a class="" href="/Company/FullCompanyProfile/@generalClass.Encrypt(a.CompanyEmail)" target="_blank"> <b>@a.CompanyName</b></a></td>
+
+                        <td> @a.IssuedDate.ToString("MMMM dd, yyyy") </td>
+                        <td>
+                            @a.ExpireDate.ToString("MMMM dd, yyyy")
+
+                            @if (DateTime.Now > exDate)
+                            {
+                                <br />
+                                <b class="text-danger"> Expired Permit </b>
+                            }
+                        </td>
+                        <td> @status </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-primary btn-sm" href="/Permits/ViewPermit/@permitID/_view" target="_blank"> <i class="fa fa-eye"> </i> View </a>
+                                <a class="btn btn-warning btn-sm" href="/Permits/ViewPermit/@permitID/_download" target="_blank"> <i class="fa fa-file-download"> </i> Download </a>
+                                <a class="btn btn-dark btn-sm" href="/Permits/ViewHistory/@permitID" target="_blank"> <i class="fas fa-history"></i> History </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>

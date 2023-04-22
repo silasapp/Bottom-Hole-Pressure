@@ -1,0 +1,142 @@
+﻿@using BHP.Helpers;
+@using Microsoft.AspNetCore.Http;
+@using BHP.Controllers.Authentication;
+
+@{
+    ViewData["Title"] = "Application(s) on My Desk";
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<br />
+
+<div class="card-black">
+
+    <div class="col-sm-12">
+
+        @if (generalClass.Decrypt(Context.Session.GetString(AuthController.sessionRoleName)) == GeneralClass.AD_UMR || generalClass.Decrypt(Context.Session.GetString(AuthController.sessionRoleName)) == GeneralClass.SECTION_HEAD)
+        {
+        @*<button type="button" id="btnInsPushApp" class="btn btn-primary pull-right" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#">
+            Distribute Applications
+        </button>
+
+        <br />
+
+        <button type="button" hidden id="btnInsPushApp2" class="btn btn-primary pull-right" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#InsPushAppModal">
+            Click
+        </button>*@
+        }
+        <br />
+
+        <div class="col-lg-12">
+
+            <div class="card-body">
+
+                <table class="table table-bordered" style="font-size:small" id="MyDeskAppsTable">
+                    <thead>
+                        <tr>
+                            <th>ii </th>
+                            <th>Ref. No.</th>
+                            <th>Company</th>
+                            <th>Address</th>
+                            <th>Year</th>
+                            <th>Proposal Approved</th>
+                            <th>Report Approved</th>
+                            <th>Status</th>
+                            <th>Applied Date</th>
+                            <th>Last Action Date</th>
+                            <th>Workflow</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+<div class="modal" id="InsPushAppModal">
+
+
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            @{
+                string Role = "";
+
+                @if (generalClass.Decrypt(Context.Session.GetString(AuthController.sessionRoleName)) == GeneralClass.AD_UMR)
+                {
+                    Role = GeneralClass.SECTION_HEAD;
+                }
+                else
+                {
+                    Role = GeneralClass.TEAM;
+                }
+            }
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Select one <b class="text-danger">@Role</b> to push application to</h4>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="btn btn-danger btn-sm">Close</span>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+
+                <div>
+                    <p class="text-primary"> Enter some comment below </p>
+                    <textarea id="txtPushComment" style="max-width:100%" rows="5" cols="68" class="form-control rounded-0" placeholder="Some comment here..."></textarea>
+                </div>
+
+                <p></p>
+
+                <div class="table-responsive" id="DivDistributAppsLoader">
+
+                    <table class="table table-bordered table-hover table-striped" style="" id="DivDistributApps">
+                        <thead>
+                            <tr>
+                                <th>Last Name</th>
+                                <th>First Name</th>
+                                <th>Email</th>
+                                <th>Desk Count</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+                <div id="InsAppDropInfo" class="text-danger">
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<input type="text" id="Insshowpush" hidden />
+

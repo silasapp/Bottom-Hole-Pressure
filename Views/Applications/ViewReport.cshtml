@@ -1,0 +1,125 @@
+﻿@using BHP.Helpers
+@model IEnumerable<BHP.Models.RequestApplication>
+
+@{
+    ViewData["Title"] = "Application Report for : " + ViewData["AppRef"];
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+
+<h1>@ViewData["Title"]</h1>
+
+<br />
+
+
+<div class="card-black">
+
+    <h3 class="text-primary"> Application Information </h3>
+    <hr />
+
+    <div class="row">
+
+        @foreach (var appDetail in Model)
+        {
+
+            <div class="col-sm-4">
+
+                <div class="alert">
+                    <div>
+                        <h5>Reference NO :<b class="text-primary"> @appDetail.RefNo</b></h5>
+                    </div>
+                    <p></p>
+                    <div>
+                        <h5>Company Name : <a class="" href="/Company/FullCompanyProfile/@generalClass.Encrypt(appDetail.CompanyEmail)" target="_blank"> <i class="ti-eye"> </i> @appDetail.CompanyName </a> </h5>
+                    </div>
+                    <p></p>
+                    <div>
+                        <h5>Company Address : @appDetail.CompanyAddress </h5>
+                    </div>
+                    <p></p>
+                    <div>
+                        <h5>Email : @appDetail.CompanyEmail</h5>
+                    </div>
+                    <p></p>
+                    <div>
+                        <h5>Proposed Year : @appDetail.Year</h5>
+                    </div>
+                    <p></p>
+                    <div>
+                        <h5>Application : @appDetail.Status </h5>
+                    </div>
+                    <p></p>
+                    <div>
+                        <h5>Date Applied : @appDetail.DateApplied </h5>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-sm-8">
+               
+                <div style="border-left:5px solid #fadee8; padding-left: 10px;">
+
+                    <h3 class="text-danger"><b>@ViewData["Title"]</b></h3>
+
+                    <hr />
+
+                    <div style="padding:15px">
+
+                        <div class="row">
+
+                            <div class="col-sm-8">
+                                <h4><b>Title : @appDetail.Subject</b></h4>
+
+                                <h4><b>Staff : @appDetail.Staff</b></h4>
+
+                            </div>
+
+                            <div class="col-sm-4">
+
+                                @if (appDetail.DocSource == "NILL")
+                                {
+                                    <b>No File uploaded</b>
+                                }
+                                else
+                                {
+                                    <div class="text-center">
+
+                                        <a href="@appDetail.DocSource" target="_blank">
+                                            <i class="far fa-file-pdf fa-5x text-danger"></i>
+
+                                            <p></p>
+
+                                            <b>Click to view file</b>
+                                        </a>
+
+                                    </div>
+                                }
+                            </div>
+
+                        </div>
+
+                        <hr />
+
+                        <div style="line-height:40px; text-align:justify; font-size:16px; padding:10px;" class="">
+                            @appDetail.Comment
+                        </div>
+
+                        <hr />
+
+                        <p class="">Created At : <b>@appDetail.ReportDate.ToLongDateString()</b></p>
+                        <p class="text-danger">Updated At : <b>@appDetail.UpdatedAt?.ToLongDateString()</b></p>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</div>

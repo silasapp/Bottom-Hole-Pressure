@@ -1,0 +1,65 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "The Legal Stuff";
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+    <div class="container" style="padding:20px; margin-top:10px">
+
+        <h1 style="font-family:'Segoe UI Light';"> <img src="~/images/nuprc.png" style="height:100px; padding:1px" /> &nbsp; @ViewData["Title"].ToString() - Terms & Conditions</h1>
+        <hr />
+
+        <div style="line-height:40px; font-size:19px; font-family:Calibri">
+
+            <br />
+
+            <div class="text-center">
+                <b class="text-danger">Copyright :</b> All  rights  reserved.  This  document  is  the  property  of  the  Nigerian Upstream Petroleum Regulatory Commission (NUPRC), and the copyright thereof is vested in the DPR. The use of any part of this document as a quote or in any publication shall be acknowledged and/or referenced.
+            </div>
+
+            <br />
+
+            <div class="text-center">
+                <b>GUIDELINES FOR THE GRANT OF APPROVAL FOR BOTTOM HOLE PRESSURE.</b>
+                <hr />
+            </div>
+
+            <div class="text-center">
+                <p>These guidelines are made pursuant to the provisions of the Petroleum (Amendment) Act No. 37 of 1977.</p>
+
+                <br />
+
+                <p>
+                    By clicking the <b>AGREE</b> button - you accept the <a href="https://www.nuprc.gov.ng/nuprc-guidelines/" target="_blank"> Terms & Condictions </a> that govorn the grant for APPROVAL
+                    of BOTTOM HOLE PRESSURE
+                </p>
+            </div>
+
+        </div>
+        <br />
+        <hr />
+
+        <br />
+
+        <div class="text-center">
+
+            <form action="/Company/AcceptLegal" method="post">
+                <input type="text" hidden value="@ViewData["cid"]" name="companyid" id="companyid" />
+                <a class="btn btn-success text-capitalize" href="/Company/AcceptLegal/@ViewData["cid"]" id="btnAcceptLegal">Yes, I Agree </a>
+                &nbsp;
+                <a class="btn btn-danger text-capitalize" href="/Home" id="btnRejectLegal"> No, I Don't Agree </a>
+            </form>
+
+        </div>
+    </div>
+
+</body>
+</html>
+
+

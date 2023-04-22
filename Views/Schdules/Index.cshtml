@@ -1,0 +1,147 @@
+﻿@using BHP.Helpers
+@using Microsoft.AspNetCore.Http;
+
+@model IEnumerable<BHP.Models.MyApps>
+
+@{
+    ViewData["Title"] = ViewData["ScheduleTitle"].ToString();
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+<h1>@ViewData["Title"].ToString()</h1>
+
+<br />
+
+<div class="card-black">
+
+    <br />
+
+    <p><hr /></p>
+
+    <div style="max-height:initial">
+
+        <div id="" class="table-responsive">
+
+            <table class="table table-bordered table-hover" id="MyFacilityTable" style="font-size:small">
+                <thead>
+                    <tr>
+                        <th> By </th>
+                        <th> RefNo </th>
+                        <th> Company Name</th>
+                        <th> Company Email</th>
+                        <th> Address</th>
+                        <th> Proposal Year</th>
+                        <th> Schedult Type </th>
+                        <th> Location </th>
+                        <th> Schedule Date </th>
+                        <th> Staff Comment </th>
+                        <th> Marketer Accepted </th>
+                        <th> Marketer Comment </th>
+                        <th> CreatedAt </th>
+                        <th> UpdatedAt </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var a in Model)
+                        {
+                            var cResponse = a.CustomerAccept == 1 ? "Accepted" :
+                                a.CustomerAccept == 2 ? "Rejected" : "Awaiting";
+
+                            var startDate = DateTime.Parse(a.ScheduleDate.ToString());
+                            var expDate = startDate;
+
+                            <tr>
+                                <td> @a.StaffName</td>
+                                <td><b> @a.RefNo</b></td>
+                                <td><b> <a class="" href="/Company/FullCompanyProfile/@generalClass.Encrypt(a.CompanyEmail)" target="_blank"> <i class="ti-eye"> </i> @a.CompanyName </a> </b></td>
+                                <td> @a.CompanyEmail</td>
+                                <td> <small>@a.CompanyAddress</small></td>
+                                <td> @a.Year</td>
+                                <td> @a.ScheduleType</td>
+                                <td> @a.ScheduleLocation</td>
+                                <td> @a.ScheduleDate</td>
+                                <td> @a.Comment</td>
+                                <td> @cResponse</td>
+                                <td> <small>@a.CustomerComment</small></td>
+                                <td> <b> @a.CreatedAt</b></td>
+                                <td>
+                                    <b> @a.UpdateAt</b>
+
+                                    @if (DateTime.Now > expDate)
+                                    {
+                                        <b class="text-danger"> Schedule Expired </b>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+
+        <div id="CalendarDiv" class="hide">
+            <div id='calendar'></div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar;
+
+        calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: ['bootstrap', 'dayGrid', 'timeGrid', 'list'],
+            height: 600,
+            header: {
+                left: 'prevYear,prev,next,nextYear today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth,listWeek,listDay,'
+            },
+            views: {
+                listDay: { buttonText: 'list day' },
+                listWeek: { buttonText: 'list week' },
+                listMonth: { buttonText: 'list month' }
+            },
+
+            defaultDate: new Date(),
+            themeSystem: 'bootstrap',
+            defaultView: 'dayGridMonth',
+            weekNumbers: false,
+            navLinks: true, // can click day/week names to navigate views
+            editable: false,
+            eventLimit: false, // allow "more" link when too many events
+            events: '@Url.RouteUrl(new { action = "ScheduleCalendar", controller = "Schedules", id = ViewData["ScheduleStaffID"].ToString()})',
+
+            eventRender: function (info) {
+                Tipped.create(info.el, function (element) {
+                    return {
+                        title: info.event.title + " SCHEDULE ",
+                        content: "<div> <b class='text-warning'> Schedule Details </b> <hr> <p> Company : " + info.event.extendedProps.company + " </p>  <p> Date : " + info.event.start + "</p> <p> Location : " + info.event.extendedProps.location + "</p>  <p> Customer Response : " + info.event.extendedProps.customerResponse + "</p> <p> Customer Comment : " + info.event.extendedProps.customerComment + "</p> <hr> <p> Schedule By : " + info.event.extendedProps.schedule + "</p>  <p> Staff Comment : " + info.event.extendedProps.staffComment + "</p> <p> Supervisor Response : " + info.event.extendedProps.supervisorResponse + "</p> <p> Supervisor Comment : " + info.event.extendedProps.supervisorComment + "</p> </div>"
+                    };
+                },
+                    {
+                        radius: false,
+                        close: true,
+                        size: 'large',
+                        behavior: 'custom-slow',
+                    }
+                );
+            }
+        });
+
+        calendar.render();
+
+    });
+
+</script>

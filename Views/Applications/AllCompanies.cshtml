@@ -1,0 +1,62 @@
+﻿@using BHP.Helpers
+@model IEnumerable<BHP.Models.DB.Companies>
+
+@{
+    ViewData["Title"] = "All Companies";
+     Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+<div class="card-black">
+
+    <h1>@ViewData["Title"]</h1>
+
+    <br />
+
+    <table class="table table-bordered table-hover" id="MyFacilityTable">
+        <thead>
+            <tr>
+                <th> Company Name</th>
+                <th> Email </th>
+                <th> Address </th>
+                <th> Identification Code </th>
+                <th> Active Status </th>
+                <th> Deleted Status </th>
+                <th> Created At </th>
+                <th> Action </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in Model)
+            {
+                var status = a.ActiveStatus == true ? "Active" : "Deactivated";
+                var deleted = a.DeleteStatus == true ? "Deleted" : "Not Deleted";
+
+                var comp = generalClass.Encrypt(a.CompanyId.ToString());
+                var compemail = generalClass.Encrypt(a.CompanyEmail.ToString());
+
+            <tr>
+                <td> <b>@a.CompanyName</b></td>
+                <td> @a.CompanyEmail</td>
+                <td> @a.Address @a.City, @a.StateName</td>
+                <td> @a.IdentificationCode</td>
+                <td> @status</td>
+                <td> @deleted</td>
+                <td> @a.CreatedAt.ToString("MMMM dd, yyyy") </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-warning btn-sm" href="/Applications/Index/@generalClass.Encrypt("_company")/@comp" target="_blank"> <i class="fa fa-file"> </i> Apps </a>
+                        <a class="btn btn-danger btn-sm" href="/Permits/Index/_company/@comp" target="_blank"> <i class="ti-files"> </i> Permits </a>
+                        <a class="btn btn-primary btn-sm" href="/Company/FullCompanyProfile/@compemail" target="_blank"> <i class="ti-eye"> </i> View </a>
+                    </div>
+                </td>
+            </tr>
+                @*}*@
+
+            }
+
+        </tbody>
+    </table>
+
+</div>
+

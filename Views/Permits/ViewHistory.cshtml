@@ -1,0 +1,44 @@
+﻿@using BHP.Helpers;
+@using Microsoft.AspNetCore.Http;
+@model IEnumerable<BHP.Models.PermitView>
+
+@{
+    ViewData["Title"] = ViewData["PermitHistoryTitle"];
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+}
+
+<div class="card-black">
+
+    <br />
+
+    <table class="table table-bordered table-hover" id="MyFacilityTable" style="font-size:small">
+        <thead>
+            <tr>
+                <th> Permit NO</th>
+                <th> View Type </th>
+                <th> User Details </th>
+                <th> Previewed At </th>
+                <th> Downloaded At </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model.Any())
+            {
+                foreach (var a in Model)
+                {
+                    <tr>
+                        <td> @a.PermitNO</td>
+                        <td> @a.ViewType</td>
+                        <td> @a.UserDetails</td>
+                        <td> @a.PreviewedAt.ToString()</td>
+                        <td> @a.DownloadedAt.ToString() </td>
+
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>
+

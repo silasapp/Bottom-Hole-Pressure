@@ -1,0 +1,74 @@
+﻿@using BHP.Helpers
+@using Microsoft.AspNetCore.Http;
+@using BHP.Controllers.Authentication;
+
+@model IEnumerable<BHP.Models.NominationRequestList>
+
+@{
+    ViewData["Title"] = ViewData["NominationName"];
+    Layout = "~/Views/Shared/_ElaLayout.cshtml";
+    GeneralClass generalClass = new GeneralClass();
+}
+
+
+<h1>
+    @ViewData["Title"]
+</h1>
+
+<br />
+
+
+<div class="card-black">
+
+    <br />
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover" id="MyFacilityTable" style="font-size:small">
+            <thead>
+                <tr>
+                    <th>RefNo</th>
+                    <th>Staff Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Is Done</th>
+                    <th>Comment</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @for (int a = 0; a < Model.Count(); a++)
+                    {
+                        var isdone = Model.ToList()[a].isDone == true ? "YES" : "NO";
+
+                        var requestid = generalClass.Encrypt(Model.ToList()[a].RequestId.ToString());
+                        var NominationRequestId = generalClass.Encrypt(Model.ToList()[a].NominationRequestId.ToString());
+
+                        <tr>
+                            <td> <b>@Model.ToList()[a].RefNo</b></td>
+                            <td> @Model.ToList()[a].StaffName</td>
+                            <td> @Model.ToList()[a].Email</td>
+                            <td> @Model.ToList()[a].Role</td>
+                            <td> @isdone</td>
+                            <td> <small>@Model.ToList()[a].Comment</small></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a class="btn btn-info btn-sm" href="/Applications/Apps/@requestid" target="_blank"> <i class="fa fa-eye"> </i> View App </a>
+
+                                    @if (isdone == "NO" && Model.ToList()[a].StaffId == Convert.ToInt32(generalClass.Decrypt(Context.Session.GetString(AuthController.sessionUserID))))
+                                    {
+                                        <a class="btn btn-success btn-sm" href="/Applications/NominationRequest/@NominationRequestId" target="_blank"> <i class="fa fa-book"> </i> View Request </a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+

@@ -1,0 +1,228 @@
+﻿@model BHP.Models.MyModel.RequestModel
+@{
+    ViewData["Title"] = "Proposal/Company Details";
+    Layout = "~/Views/Shared/_ClientLayout.cshtml";
+}
+
+<div class="row" id="BackImage">
+
+    <br />
+    <h3 class="DashCompanyName">@ViewData["Title"]</h3>
+    <br />
+</div>
+
+<br />
+<hr />
+<table class="" style="width: 100%;">
+    <tr>
+        <td valign="top" class="pad" style="width:300px; padding-top:15px"><b style="color:#185829">Company Name</b></td>
+        <td style="width:300px">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    @Model.companyname
+                </li>
+            </ul>
+        </td>
+        <td valign="top" class="pad" style="padding-left:200px; width:500px; padding-top:15px"><b style="color:#185829">Company Identification Code</b></td>
+        <td style="width:300px">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    @Model.IdentificationCode
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" class="pad" style="padding-top:15px"><b style="color:#185829">Company Address</b></td>
+        <td>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    @Model.Address
+                </li>
+            </ul>
+        </td>
+        <td valign="top" class="pad" style="padding-left:300px; padding-top:15px"><b style="color:#185829">State Name</b></td>
+        <td>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    @Model.StateName
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" class="pad" style="padding-top:15px"><b style="color:#185829">Company Email</b></td>
+        <td>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    @Model.CompanyEmail
+                </li>
+            </ul>
+        </td>
+        <td valign="top" class="pad" style="padding-left:300px; padding-top:15px"><b style="color:#185829">Proposal Year</b></td>
+        <td>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    @ViewData["ProposalYr"]
+                </li>
+            </ul>
+        </td>
+
+    </tr>
+    <tr>
+        <td valign="top" class="pad" style="padding-top:15px"><b style="color:#185829">Request Ref Number</b></td>
+        <td>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    @ViewData["RequestRefNo"]
+                </li>
+            </ul>
+        </td>
+        <td valign="top" class="pad" style="padding-left:300px; padding-top:15px"><b style="color:#185829">Request Date</b></td>
+        <td>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    @ViewData["Requestdate"]
+                </li>
+            </ul>
+        </td>
+
+    </tr>
+</table>
+
+<br />
+
+<div class="col-sm-12">
+
+    <h6 class="text-info"> <b>Submitted Documents</b> </h6>
+    <hr />
+    @if (ViewBag.AppDocs != null)
+    {
+
+        foreach (var appDoc in ViewBag.AppDocs)
+        {
+            @*onclick="ViewDoc('@generalClass.Encrypt(appDoc.CompanyDocID.ToString())','@appDoc.DocType')"*@
+
+            <a href="@appDoc.DocSource" target="_blank" style="color:cornflowerblue; font-size:large">
+                <div class="" style="border:1px solid #dadada; padding:10px; margin-top:10px; cursor:pointer" title="Click to view document">
+                    <i class="fa fa-file fa-lg"></i>
+                    <small class="">
+                        <span class="text-secondary"><b> @appDoc.DocName  </b></span>
+                    </small>
+
+                </div>
+            </a>
+        }
+    }
+    else
+    {
+        <b class=""> No documents submitted yet </b>
+    }
+
+</div>
+
+<br />
+
+<hr />
+
+<div class="row">
+    <div class="col-sm-12" style="background-color:white">
+
+        <div class="text-center">
+            <label style="font-weight:bolder; font-size:25px; color:green">Uploaded @ViewData["ProposalYr"] SubSurface Pressure Survey Proposal</label>
+        </div>
+
+
+        <br />
+
+
+        <hr />
+
+        <table class="table table-striped table-condensed table-bordered table-responsive customTable" style="font-size:small">
+            <thead>
+                <tr>
+                    <th>Quarter</th>
+                    <th>Fields</th>
+                    <th>Reservoir</th>
+                    <th>Initial Reservoir Presure</th>
+                    <th>Reservoir Bubble Point Pressure</th>
+                    <th>Name of Well to be Srveyed </th>
+                    <th>Date of Last Survey</th>
+                    <th>Measured Reservoir Pressure at the Date of Last Survey</th>
+                    <th>Shut in Duration</th>
+                    <th>Instrument to be Used </th>
+                    <th>Cost of Operation per well (USD) </th>
+                    <th>Date Reservoir Commenced</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.MyApplicationList != null)
+                {
+                    foreach (var item in ViewBag.MyApplicationList)
+                    {
+                        <tr>
+                            <td>@item.Qrt</td>
+                            <td>@item.Fields</td>
+                            <td>@item.Reservoir</td>
+                            <td>@item.InitialRpressure</td>
+                            <td>@item.RbubblePointPressure</td>
+                            <td>@item.WellName</td>
+                            <td>@item.LastSurveyDate</td>
+                            <td>@item.MeasuredRpressure</td>
+                            <td>@item.TimeShut</td>
+                            <td>@item.UsedInstrument</td>
+                            <td>@item.OperaionWellCost</td>
+                            <td>@item.ReservoirCreatedAt</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+    <p><br /></p>
+
+
+
+    <hr />
+
+    <div class="col-md-12" style="background-color:white">
+        <input type="hidden" value="@ViewData["ReqID"]" id="RequestId" />
+        <label style="margin-left:300px; font-weight:bolder; font-size:25px; color:green"> @ViewData["ProposalYr"].ToString() SubSurface Pressure Survey Report</label>
+        <hr />
+        <table class="table table-striped table-condensed table-responsive table-bordered SurveyDT" style="font-size:small">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Reservoir</th>
+                    <th>Remaining Reserves</th>
+                    <th>Well</th>
+                    <th>Date of Survey</th>
+                    <th>Oil(mmbbl) NCO at 60/60</th>
+                    <th>Water (mmbbl)</th>
+                    <th>Gas(MMscf)</th>
+                    <th>BS&W(%)</th>
+                    <th>GOR(scf/mmbbl) </th>
+                    <th>Bean(64th) </th>
+                    <th>Datum Depth (ft. ss)</th>
+                    <th>Initial RES. Pressure(psig)</th>
+                    <th>THP(psig)</th>
+                    <th>CHP(psig)</th>
+                    <th>FBHP MP perf.(psig)</th>
+                    <th>SBHP MP perf.(psig)</th>
+                    <th>Calc. Res. Press. at datum(psig)</th>
+                    <th>Productivity Index (b/d/psig)</th>
+                    <th>Date of Last Survey</th>
+                    <th>Remarks</th>
+
+                </tr>
+            </thead>
+            <tbody></tbody>
+
+        </table>
+    </div>
+
+
+
+</div>

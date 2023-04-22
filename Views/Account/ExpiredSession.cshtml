@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewData["Title"] = "Expired Session";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    div.container4 {
+        height: 10em;
+        position: relative;
+        margin: 0;
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%)
+    }
+</style>
+
+<html>
+
+<body>
+
+
+    <div class="container container4">
+
+        <div class="row">
+
+            <div class="col-sm-4">
+
+                <img src="~/images/access_cry.png" style="height:260px; padding:3px" />
+
+            </div>
+
+            <div class="col-sm-8">
+
+                <br /><br />
+                <h1 class="text-danger"> Session Expired <img src="~/images/cry2.png" style="height:70px; padding:10px" /></h1>
+                <br />
+                <hr />
+                <br />
+                <h3 style="font-family:'Segoe UI Symbol'"> <i class="fa fa-exclamation-circle"> </i> Sorry, your session has expired. Sign in again.</h3>
+            </div>
+
+        </div>
+
+        <br />
+
+        <div class="text-center">
+            <a href='/Home' class="btn btn-primary btn-lg">Sign in Again</a>
+        </div>
+
+    </div>
+
+
+
+</body>
+
+</html>

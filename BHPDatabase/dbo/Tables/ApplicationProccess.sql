@@ -1,0 +1,26 @@
+﻿CREATE TABLE [dbo].[ApplicationProccess] (
+    [ProccessID]     INT         IDENTITY (1, 1) NOT NULL,
+    [RoleID]         INT         NOT NULL,
+    [Sort]           INT         NOT NULL,
+    [LocationID]     INT         NOT NULL,
+    [canPush]        BIT         NOT NULL,
+    [canWork]        BIT         NOT NULL,
+    [canInspect]     BIT         NOT NULL,
+    [canSchdule]     BIT         NOT NULL,
+    [canReport]      BIT         NOT NULL,
+    [canAccept]      BIT         NOT NULL,
+    [canReject]      BIT         NOT NULL,
+    [onAcceptRoleID] INT         NOT NULL,
+    [onRejectRoleID] INT         NOT NULL,
+    [Process]        VARCHAR (5) NOT NULL,
+    [CreatedAt]      DATETIME    NOT NULL,
+    [CreatedBy]      INT         NULL,
+    [UpdatedAt]      DATETIME    NULL,
+    [UpdatedBy]      INT         NULL,
+    [DeleteStatus]   BIT         NOT NULL,
+    [DeletedBy]      INT         NULL,
+    [DeletedAt]      DATETIME    NULL,
+    [canRequest]     BIT         NULL,
+    CONSTRAINT [PK_ApplicationProccess_1] PRIMARY KEY CLUSTERED ([ProccessID] ASC)
+);
+
